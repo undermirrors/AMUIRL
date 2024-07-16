@@ -1,0 +1,13 @@
+class: User
+table: users
+fields:
+  name: String
+  mdp: String
+  currentlobby: int
+  impostor: bool
+  inLife: bool
+  nbBuzzerLeft: int?
+indexes:
+  users_info_id_unique_idx:
+    fields: name
+    unique: true

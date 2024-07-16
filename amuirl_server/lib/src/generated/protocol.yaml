@@ -1,0 +1,23 @@
+example:
+  - hello:
+lobbies:
+  - deleteAllLobbies:
+  - createLobby:
+  - deleteLobby:
+  - addPlayer:
+  - suppressPlayer:
+  - getAllLobby:
+  - changeParameter:
+  - getLobby:
+  - lobbyExist:
+users:
+  - deleteAllUsers:
+  - getAllUser:
+  - createUser:
+  - deleteUser:
+  - getUser:
+  - changeNameUser:
+  - isExistingUser:
+  - changeMdp:
+  - enterIntoLobby:
+  - exitLobby:
