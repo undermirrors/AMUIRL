@@ -182,12 +182,13 @@ packages:
     source: hosted
     version: "3.3.2"
   flutter_compass:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: flutter_compass
-      sha256: be642484f9f6975c1c6edff568281b001f2f1e604de27ecea18d97eebbdef22f
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: b497b419aaca9086e88b533834c8b37f8fcbf541
+      url: "https://github.com/helpisdev/flutter_compass.git"
+    source: git
     version: "0.8.0"
   flutter_lints:
     dependency: "direct dev"
@@ -225,10 +226,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_map_tile_caching
-      sha256: ab4dcd37a5b6bfd1e37f5f335f17eea359e2f53e7a8e9e092f1966fdda60737b
+      sha256: "583bb0b3c55e9f067d228b213eb025eac1a5e25565cc0927b61c69825211d922"
       url: "https://pub.dev"
     source: hosted
-    version: "9.1.0"
+    version: "9.1.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -299,10 +300,10 @@ packages:
     dependency: transitive
     description:
       name: http
-      sha256: "761a297c042deedc1ffbb156d6e2af13886bb305c2a343a4d972504cd67dd938"
+      sha256: b9c29a161230ee03d3ccf545097fccd9b87a5264228c5d348202e0f0c28f9010
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.2"
   http_parser:
     dependency: transitive
     description:
@@ -371,10 +372,10 @@ packages:
     dependency: transitive
     description:
       name: logger
-      sha256: af05cc8714f356fd1f3888fb6741cbe9fbe25cdb6eedbab80e1a6db21047d4a4
+      sha256: "697d067c60c20999686a0add96cf6aba723b3aa1f83ecf806a8097231529ec32"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.4.0"
   matcher:
     dependency: transitive
     description:
