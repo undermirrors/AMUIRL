@@ -1,10 +1,8 @@
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:amuirl_flutter/Pages/map_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
 import '../main.dart';
 import 'game.dart';
-import 'package:flutter_map/flutter_map.dart';
 
 class TaskSelector extends StatefulWidget {
   Lobby currentLobby;
@@ -17,6 +15,8 @@ class TaskSelector extends StatefulWidget {
 class _TaskSelectorState extends State<TaskSelector> {
   int nbTask = 0;
   bool startingPointPlaced = false;
+  int newMarker = 0;
+  bool markerAlreadyApprovedOnce = false;
 
   void taskLeftToPlace() async {
     updateUser(context);
@@ -35,7 +35,15 @@ class _TaskSelectorState extends State<TaskSelector> {
   Widget build(BuildContext context) {
     setState(() {
       taskLeftToPlace();
+      if (newMarker != 0) {
+        if (markerAlreadyApprovedOnce) {
+          newMarker = 0;
+        } else {
+          markerAlreadyApprovedOnce = true;
+        }
+      }
     });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Selection des tâches"),
@@ -59,37 +67,19 @@ class _TaskSelectorState extends State<TaskSelector> {
                 color: Colors.grey,
                 borderRadius: BorderRadius.circular(30.0),
               ),
-              child: const MapWidget(),
+              child: MapWidget(newMarker: newMarker),
             ),
 
-            if (startingPointPlaced)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      startingPointPlaced = false;
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 30.0),
-                      alignment: Alignment.center,
-                      height: 100,
-                      width: 150,
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      child: const Text(
-                        "-",
-                        style: TextStyle(
-                          fontSize: 50,
-                        )
-                      ),
-                    ),
-                  ),
-
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      newMarker = 1;
+                      markerAlreadyApprovedOnce = false;
+                    });
+                  },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 30.0),
                     alignment: Alignment.center,
@@ -99,46 +89,39 @@ class _TaskSelectorState extends State<TaskSelector> {
                       color: Colors.grey,
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    child: const Text(
-                        "+",
-                        style: TextStyle(
-                          fontSize: 50,
-                        )
+                    child: const Icon(
+                      Icons.warehouse_rounded,
+                      size: 50,
+                    ),
+                  ),
+                ),
+
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      newMarker = 2;
+                      markerAlreadyApprovedOnce = false;
+                    });
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 30.0),
+                    alignment: Alignment.center,
+                    height: 100,
+                    width: 150,
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: const Icon(
+                      Icons.build,
+                      size: 50,
                     ),
                   ),
                 ),
               ],
             ),
 
-            if (!startingPointPlaced)
-              GestureDetector(
-                onTap: () {
-                  startingPointPlaced = true;
-                },
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 30.0),
-                  alignment: Alignment.center,
-                  height: 100,
-                  width: 350,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(30.0),
-                    border: Border.all(
-                      color: Colors.grey[600]!,
-                      style: BorderStyle.solid,
-                      width: 2,
-                    ),
-                  ),
-                  child: const Text(
-                    "Ajouter point de départ",
-                    style: TextStyle(
-                      fontSize: 27,
-                    )
-                  ),
-                ),
-              ),
-
-              GestureDetector(
+            GestureDetector(
               onTap: () {
                 if (startingPointPlaced) {
                   Navigator.push(context, MaterialPageRoute(
