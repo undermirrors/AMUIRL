@@ -1,8 +1,12 @@
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:amuirl_flutter/Pages/map_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import '../main.dart';
 import 'game.dart';
+
+
+List<LatLng> taskMarkerCoord = [];
 
 class TaskSelector extends StatefulWidget {
   Lobby currentLobby;
@@ -16,6 +20,7 @@ class _TaskSelectorState extends State<TaskSelector> {
   int nbTask = 0;
   bool startingPointPlaced = false;
   int newMarker = 0;
+  int? selectedMarker;
   bool markerAlreadyApprovedOnce = false;
 
   void taskLeftToPlace() async {
@@ -25,7 +30,7 @@ class _TaskSelectorState extends State<TaskSelector> {
       if (lobby != null) {
         setState(() {
           widget.currentLobby = lobby;
-          nbTask = lobby.gameParameter[6];
+          nbTask = lobby.gameParameter[6] - taskMarkerCoord.length;
         });
       }
     }
@@ -38,6 +43,7 @@ class _TaskSelectorState extends State<TaskSelector> {
       if (newMarker != 0) {
         if (markerAlreadyApprovedOnce) {
           newMarker = 0;
+          selectedMarker = null;
         } else {
           markerAlreadyApprovedOnce = true;
         }
@@ -45,7 +51,9 @@ class _TaskSelectorState extends State<TaskSelector> {
     });
 
     return Scaffold(
+      backgroundColor: Colors.blue[50],
       appBar: AppBar(
+        backgroundColor: Colors.blue[50],
         title: const Text("Selection des tâches"),
       ),
       body: Center(
@@ -61,13 +69,62 @@ class _TaskSelectorState extends State<TaskSelector> {
 
             Container(
               alignment: Alignment.center,
-              height: 600,
+              height: 500,
               width: 450,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              child: MapWidget(newMarker: newMarker),
+              child: MapWidget(newMarker: newMarker, selectedMarker: selectedMarker),
+            ),
+
+
+            Container(
+              height: 50,
+              width: 420,
+              padding: const EdgeInsets.all(5.0),
+              color: Colors.black,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  if(startingPointPlaced)
+                    GestureDetector(
+                      onTap: () => {
+                        setState(() {
+                          if (selectedMarker == -1) {
+                            selectedMarker = null;
+                          } else {
+                            selectedMarker = -1;
+                          }
+                        })
+                      },
+                    child :Container(
+                      height: 30,
+                      width: 30,
+                      margin: const EdgeInsets.all(5),
+                      color: selectedMarker == -1 ? Colors.blueGrey : Colors.blueGrey[800],
+                      child: const Icon(Icons.warehouse_rounded),
+                    ),
+                  ),
+
+                  if (taskMarkerCoord.isNotEmpty)
+                    for (int i = 0; i < taskMarkerCoord.length; i++)
+                      GestureDetector(
+                        onTap: () => {
+                          setState(() {
+                            if (selectedMarker == i) {
+                              selectedMarker = null;
+                            } else {
+                              selectedMarker = i;
+                            }
+                          })
+                        },
+                        child: Container(
+                          height: 30,
+                          width: 30,
+                          margin: const EdgeInsets.all(5),
+                          color: selectedMarker == i ? Colors.blueGrey: Colors.blueGrey[800],
+                          child: const Icon(Icons.build_circle),
+                        ),
+                      ),
+                ],
+              )
             ),
 
             Row(
@@ -78,15 +135,16 @@ class _TaskSelectorState extends State<TaskSelector> {
                     setState(() {
                       newMarker = 1;
                       markerAlreadyApprovedOnce = false;
+                      startingPointPlaced = true;
                     });
                   },
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 30.0),
+                    margin: const EdgeInsets.symmetric(horizontal: 40.0),
                     alignment: Alignment.center,
                     height: 100,
-                    width: 150,
+                    width: 100,
                     decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: Colors.blueGrey[300],
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     child: const Icon(
@@ -99,17 +157,44 @@ class _TaskSelectorState extends State<TaskSelector> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      newMarker = 2;
+                      newMarker = 3;
+                      if (selectedMarker == -1) {
+                        startingPointPlaced = false;
+                      }
                       markerAlreadyApprovedOnce = false;
                     });
                   },
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 30.0),
+                    alignment: Alignment.center,
+                    height: 75,
+                    width: 75,
+                    decoration: BoxDecoration(
+                      color: Colors.blueGrey[300],
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: const Icon(
+                      Icons.delete,
+                      size: 30,
+                    ),
+                  ),
+                ),
+
+                GestureDetector(
+                  onTap: () {
+                    if (nbTask > 0) {
+                      setState(() {
+                        newMarker = 2;
+                        markerAlreadyApprovedOnce = false;
+                      });
+                    }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 40.0),
                     alignment: Alignment.center,
                     height: 100,
-                    width: 150,
+                    width: 100,
                     decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: Colors.blueGrey[300],
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     child: const Icon(

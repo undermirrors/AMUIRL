@@ -1,3 +1,4 @@
+import 'package:amuirl_flutter/Pages/task_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -25,7 +26,8 @@ Future<bool> getCurrentLocation() async {
 
 class MapWidget extends StatefulWidget {
   final int newMarker;
-  const MapWidget({super.key, required this.newMarker});
+  final int? selectedMarker;
+  const MapWidget({super.key, required this.newMarker, required this.selectedMarker});
 
   @override
   State<MapWidget> createState() => _MapWidgetState();
@@ -33,8 +35,7 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
   Marker? positionPlayer;
-  Marker? lobbyMarker;
-  List<Marker> savedMarker = [];
+  LatLng? lobbyMarkerPos;
   LatLng? temporaryMarkerPos;
   double zoom = 17.0;
 
@@ -52,31 +53,44 @@ class _MapWidgetState extends State<MapWidget> {
           break;
         case 1:
           setState(() {
-            lobbyMarker = createMarker(
-                temporaryMarkerPos!,
-                const Icon(Icons.warehouse_rounded)
-            );
+            lobbyMarkerPos = temporaryMarkerPos!;
             temporaryMarkerPos = null;
           });
           break;
         case 2:
           setState(() {
-            savedMarker.add(
-              createMarker(
-                temporaryMarkerPos!,
-                const Icon(Icons.build_circle)
-              )
-            );
+            taskMarkerCoord.add(temporaryMarkerPos!);
+            temporaryMarkerPos = null;
           });
-          temporaryMarkerPos = null;
         default:
           break;
+      }
+    } else {
+      if (widget.newMarker == 3) {
+        setState(() {
+          if (widget.selectedMarker != null) {
+            if (widget.selectedMarker == -1) {
+              lobbyMarkerPos = null;
+            } else {
+              taskMarkerCoord.removeAt(widget.selectedMarker!);
+            }
+          }
+          temporaryMarkerPos = null;
+        });
       }
     }
 
     List<Marker> markers = [];
-    if (lobbyMarker != null) {
-      markers.add(lobbyMarker!);
+    if (lobbyMarkerPos != null) {
+      markers.add(
+        createMarker(
+          lobbyMarkerPos!,
+          Icon(
+            Icons.warehouse_rounded,
+            color: (widget.selectedMarker != -1) ? Colors.black : Colors.red
+          )
+        )
+      );
     }
     if (temporaryMarkerPos != null) {
       markers.add(
@@ -86,7 +100,16 @@ class _MapWidgetState extends State<MapWidget> {
         )
       );
     }
-    markers.addAll(savedMarker);
+    for (int i = 0; i < taskMarkerCoord.length; i++) {
+      markers.add(
+        createMarker(
+          taskMarkerCoord[i],
+          Icon(
+            Icons.build_circle,
+            color: (widget.selectedMarker != i) ? Colors.black : Colors.red)
+        )
+      );
+    }
 
     return FlutterMap(
       options: MapOptions(
