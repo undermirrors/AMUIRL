@@ -30,7 +30,7 @@ class _MainMenuState extends State<MainMenu> {
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(100)),
                   image: DecorationImage(
-                    image: AssetImage("/home/tristantrad/AndroidStudioProjects/amuirl/amuirl_flutter/lib/assets/user.jpg"),
+                    image: AssetImage("lib/assets/user.jpg"),
                     fit: BoxFit.cover,
                   )
                 ),
@@ -80,7 +80,7 @@ class _MainMenuState extends State<MainMenu> {
            Container(
               decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("/home/tristantrad/AndroidStudioProjects/amuirl/amuirl_flutter/lib/assets/PraiseTheSun.png"),
+                    image: AssetImage('lib/assets/PraiseTheSun.png'),
                     fit: BoxFit.cover,
                   )
               ),
