@@ -1,16 +1,12 @@
 import 'package:amuirl_client/amuirl_client.dart';
-import 'package:amuirl_flutter/Pages/load_interface.dart';
+import 'package:amuirl_flutter/Pages/game_map.dart';
 import 'package:amuirl_flutter/Pages/map_widget.dart';
 import 'package:amuirl_flutter/Pages/providers.dart';
-import 'package:amuirl_flutter/Pages/saved_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
 import 'file_manager.dart';
 import 'game.dart';
-import 'game_map.dart';
-
-GameMap map = GameMap(taskMarkerCoord: []);
 
 class TaskSelector extends StatefulWidget {
   Lobby currentLobby;
@@ -28,14 +24,14 @@ class _TaskSelectorState extends State<TaskSelector> {
   int? selectedMarker;
   bool markerAlreadyApprovedOnce = false;
 
-  void taskLeftToPlace() async {
+  void taskLeftToPlace(int taskPlaced) async {
     updateUser(context);
     if (currentUser != null) {
       var lobby = await client.lobbies.getLobby(widget.currentLobby.id!);
       if (lobby != null) {
         setState(() {
           widget.currentLobby = lobby;
-          nbTask = lobby.gameParameter[6] - map.taskMarkerCoord.length;
+          nbTask = lobby.gameParameter[6] - taskPlaced;
         });
       }
     }
@@ -43,9 +39,9 @@ class _TaskSelectorState extends State<TaskSelector> {
 
   @override
   Widget build(BuildContext context) {
+    var taskPlaced = context.watch<MapProvider>().map.taskMarkerCoord.length;
     setState(() {
-      taskLeftToPlace();
-      print("here");
+      taskLeftToPlace(taskPlaced);
       if (newMarker != 0) {
         if (markerAlreadyApprovedOnce) {
           newMarker = 0;
@@ -60,62 +56,48 @@ class _TaskSelectorState extends State<TaskSelector> {
       backgroundColor: Colors.blue[50],
       key: scaffoldTaskKey,
       endDrawer: Drawer(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child:
+        Column(
           children: [
-            Column(
-                children: [
-                DrawerHeader(
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: 235,
-                    height: 100,
-                    child: const Text(
-                      "Options avancées",
-                      style: TextStyle(
-                        fontSize: 28,
-                      ),
-                    ),
+            DrawerHeader(
+              child: Container(
+                alignment: Alignment.center,
+                width: 235,
+                height: 100,
+                child: const Text(
+                  "Options avancées",
+                  style: TextStyle(
+                    fontSize: 28,
                   ),
                 ),
-
-                Container(
-                    margin: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
-                    child: ListTile(
-                      leading: const Icon(Icons.file_copy),
-                      title: const Text("S A U V E G A R D E R"),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SavedInterface(map: map)));
-                      },
-                    )
-                ),
-
-                Container(
-                  margin: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
-                  child: ListTile(
-                    leading: const Icon(Icons.file_download_sharp),
-                    title: const Text("C H A R G E R"),
-                    onTap: () async {
-                      String path = await localPath;
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoadInterface(path: path)));
-                    },
-                  ),
-                ),
-              ]
+              ),
             ),
 
             Container(
               margin: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
               child: ListTile(
-                leading: const Icon(Icons.arrow_back),
-                title: const Text("R E T O U R"),
-                onTap: () {
-                  Navigator.pop(context);
+                leading: const Icon(Icons.file_copy),
+                title: const Text("S A U V E G A R D E R"),
+                onTap: () async {
+                  GameMap savedMap = context.watch<MapProvider>().map;
+                  context.read<CreationPageChangeProvider>().changeToSavedInterface(map: savedMap, lobby: widget.currentLobby);
                 },
               )
             ),
-          ],
-        )
+
+            Container(
+              margin: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
+              child: ListTile(
+                leading: const Icon(Icons.file_download_sharp),
+                title: const Text("C H A R G E R"),
+                onTap: () async {
+                  String path = await localPath;
+                  context.read<CreationPageChangeProvider>().changeToLoadInterface(path: path, lobby: widget.currentLobby);
+                },
+              ),
+            ),
+          ]
+        ),
       ),
 
       body: Center(
@@ -127,8 +109,8 @@ class _TaskSelectorState extends State<TaskSelector> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    map.clear(); // We clear the map when we return to the previous page
-                    Navigator.pop(context);
+                    context.read<MapProvider>().clear(); // We clear the map when we return to the previous page
+                    context.read<CreationPageChangeProvider>().changeToGameSettings(lobby: widget.currentLobby);
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -209,8 +191,8 @@ class _TaskSelectorState extends State<TaskSelector> {
                     ),
                   ),
 
-                  if (map.taskMarkerCoord.isNotEmpty)
-                    for (int i = 0; i < map.taskMarkerCoord.length; i++)
+                  if (context.watch<MapProvider>().map.taskMarkerCoord.isNotEmpty)
+                    for (int i = 0; i < context.watch<MapProvider>().map.taskMarkerCoord.length; i++)
                       GestureDetector(
                         onTap: () => {
                           setState(() {

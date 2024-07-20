@@ -1,5 +1,4 @@
 import 'package:amuirl_flutter/Pages/providers.dart';
-import 'package:amuirl_flutter/Pages/task_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -53,14 +52,14 @@ class _MapWidgetState extends State<MapWidget> {
         case 0:
           break;
         case 1:
+          context.read<MapProvider>().changeLobbyPos(lobbyPos: temporaryMarkerPos!);
           setState(() {
-            map.lobbyMarkerPos = temporaryMarkerPos!;
             temporaryMarkerPos = null;
           });
           break;
         case 2:
           setState(() {
-            map.taskMarkerCoord.add(temporaryMarkerPos!);
+            context.read<MapProvider>().addTaskPos(taskPos: temporaryMarkerPos!);
             temporaryMarkerPos = null;
           });
         default:
@@ -71,9 +70,9 @@ class _MapWidgetState extends State<MapWidget> {
         setState(() {
           if (widget.selectedMarker != null) {
             if (widget.selectedMarker == -1) {
-              map.lobbyMarkerPos = null;
+              context.read<MapProvider>().changeLobbyPos(lobbyPos: null);
             } else {
-              map.taskMarkerCoord.removeAt(widget.selectedMarker!);
+              context.read<MapProvider>().deleteTaskPos(index: widget.selectedMarker!);
             }
           }
           temporaryMarkerPos = null;
@@ -82,10 +81,10 @@ class _MapWidgetState extends State<MapWidget> {
     }
 
     List<Marker> markers = [];
-    if (map.lobbyMarkerPos != null) {
+    if (context.watch<MapProvider>().map.lobbyMarkerPos != null) {
       markers.add(
         createMarker(
-          map.lobbyMarkerPos!,
+          context.watch<MapProvider>().map.lobbyMarkerPos!,
           Icon(
             Icons.warehouse_rounded,
             color: (widget.selectedMarker != -1) ? Colors.black : Colors.red
@@ -101,10 +100,10 @@ class _MapWidgetState extends State<MapWidget> {
         )
       );
     }
-    for (int i = 0; i < map.taskMarkerCoord.length; i++) {
+    for (int i = 0; i < context.watch<MapProvider>().map.taskMarkerCoord.length; i++) {
       markers.add(
         createMarker(
-          map.taskMarkerCoord[i],
+          context.watch<MapProvider>().map.taskMarkerCoord[i],
           Icon(
             Icons.build_circle,
             color: (widget.selectedMarker != i) ? Colors.black : Colors.red)
