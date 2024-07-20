@@ -7,6 +7,7 @@ import 'package:amuirl_flutter/Pages/Widget/main_menu.dart';
 import 'package:amuirl_flutter/Pages/Widget/profile.dart';
 import 'package:amuirl_flutter/Pages/Widget/settings.dart';
 import 'package:amuirl_flutter/Pages/Widget/user_connexion.dart';
+import 'package:flutter/services.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
 var client = Client('http://$localhost:8080/')
@@ -22,7 +23,12 @@ void updateUser(BuildContext context) async {
   }
 }
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 

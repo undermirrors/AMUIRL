@@ -7,6 +7,8 @@ fields:
   impostor: bool
   inLife: bool
   nbBuzzerLeft: int?
+  nbtaskLeft: int?
+  position: LatitudeLongitude?
 indexes:
   users_info_id_unique_idx:
     fields: name

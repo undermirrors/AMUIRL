@@ -1,0 +1,14 @@
+class: Game
+table: game
+fields:
+  lobby: Lobby
+  playersDead: List<String>
+  indexOfImpostors: List<int>
+  taskLeftForEachPlayers: List<List<LatitudeLongitude>>
+  cooldownKillByImpostors: List<int>
+  startedPoint: LatitudeLongitude
+  startedPointTriggered: bool
+indexes:
+  game_info_id_unique_idx:
+    fields: lobby
+    unique: true

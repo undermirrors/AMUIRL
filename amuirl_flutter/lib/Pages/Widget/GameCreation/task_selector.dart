@@ -1,12 +1,16 @@
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:amuirl_flutter/Pages/Utils/game_map.dart';
+import 'package:amuirl_flutter/Pages/Widget/game.dart';
 import 'package:amuirl_flutter/Pages/Widget/GameCreation/map_widget.dart';
 import 'package:amuirl_flutter/Pages/Utils/providers.dart';
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import '../../../main.dart';
 import '../../Utils/file_manager.dart';
 import '../game.dart';
+
+LatLng? fromLoadedMap;
 
 class TaskSelector extends StatefulWidget {
   Lobby currentLobby;
@@ -19,7 +23,6 @@ class TaskSelector extends StatefulWidget {
 class _TaskSelectorState extends State<TaskSelector> {
   GlobalKey<ScaffoldState> scaffoldTaskKey = GlobalKey<ScaffoldState>();
   int nbTask = 0;
-  bool startingPointPlaced = false;
   int newMarker = 0;
   int? selectedMarker;
   bool markerAlreadyApprovedOnce = false;
@@ -79,7 +82,7 @@ class _TaskSelectorState extends State<TaskSelector> {
                 leading: const Icon(Icons.file_copy),
                 title: const Text("S A U V E G A R D E R"),
                 onTap: () async {
-                  GameMap savedMap = context.watch<MapProvider>().map;
+                  GameMap savedMap = context.read<MapProvider>().map;
                   context.read<CreationPageChangeProvider>().changeToSavedInterface(map: savedMap, lobby: widget.currentLobby);
                 },
               )
@@ -171,7 +174,7 @@ class _TaskSelectorState extends State<TaskSelector> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  if(startingPointPlaced)
+                  if(context.watch<MapProvider>().map.lobbyMarkerPos != null)
                     GestureDetector(
                       onTap: () => {
                         setState(() {
@@ -223,7 +226,6 @@ class _TaskSelectorState extends State<TaskSelector> {
                     setState(() {
                       newMarker = 1;
                       markerAlreadyApprovedOnce = false;
-                      startingPointPlaced = true;
                     });
                   },
                   child: Container(
@@ -247,7 +249,6 @@ class _TaskSelectorState extends State<TaskSelector> {
                     setState(() {
                       newMarker = 3;
                       if (selectedMarker == -1) {
-                        startingPointPlaced = false;
                       }
                       markerAlreadyApprovedOnce = false;
                     });
@@ -296,10 +297,11 @@ class _TaskSelectorState extends State<TaskSelector> {
 
             GestureDetector(
               onTap: () {
-                if (startingPointPlaced && nbTask <= 0) {
+                print(nbTask);
+                if (context.read<MapProvider>().map.lobbyMarkerPos != null && nbTask == 0) {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) =>
-                      Game(currentLobby: widget.currentLobby,)));
+                      GameInterface(currentLobby: widget.currentLobby,)));
                 } else {
                   print("You can't start the game without have all the task");
                 }
@@ -308,7 +310,7 @@ class _TaskSelectorState extends State<TaskSelector> {
                 alignment: Alignment.center,
                 height: 100,
                 width: 400,
-                decoration: (nbTask <= 0 && startingPointPlaced)
+                decoration: (nbTask == 0 && context.read<MapProvider>().map.lobbyMarkerPos != null)
                   ? BoxDecoration(
                     gradient: const LinearGradient(
                       begin: Alignment.topLeft,

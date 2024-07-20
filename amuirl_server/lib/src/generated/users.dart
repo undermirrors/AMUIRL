@@ -9,6 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
+import 'protocol.dart' as _i2;
 
 abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
   User._({
@@ -19,6 +20,8 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
     required this.impostor,
     required this.inLife,
     this.nbBuzzerLeft,
+    this.nbtaskLeft,
+    this.position,
   }) : super(id);
 
   factory User({
@@ -29,6 +32,8 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
     required bool impostor,
     required bool inLife,
     int? nbBuzzerLeft,
+    int? nbtaskLeft,
+    _i2.LatitudeLongitude? position,
   }) = _UserImpl;
 
   factory User.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -40,6 +45,11 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
       impostor: jsonSerialization['impostor'] as bool,
       inLife: jsonSerialization['inLife'] as bool,
       nbBuzzerLeft: jsonSerialization['nbBuzzerLeft'] as int?,
+      nbtaskLeft: jsonSerialization['nbtaskLeft'] as int?,
+      position: jsonSerialization['position'] == null
+          ? null
+          : _i2.LatitudeLongitude.fromJson(
+              (jsonSerialization['position'] as Map<String, dynamic>)),
     );
   }
 
@@ -59,6 +69,10 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
 
   int? nbBuzzerLeft;
 
+  int? nbtaskLeft;
+
+  _i2.LatitudeLongitude? position;
+
   @override
   _i1.Table get table => t;
 
@@ -70,6 +84,8 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
     bool? impostor,
     bool? inLife,
     int? nbBuzzerLeft,
+    int? nbtaskLeft,
+    _i2.LatitudeLongitude? position,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -81,6 +97,8 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
       'impostor': impostor,
       'inLife': inLife,
       if (nbBuzzerLeft != null) 'nbBuzzerLeft': nbBuzzerLeft,
+      if (nbtaskLeft != null) 'nbtaskLeft': nbtaskLeft,
+      if (position != null) 'position': position?.toJson(),
     };
   }
 
@@ -94,6 +112,8 @@ abstract class User extends _i1.TableRow implements _i1.ProtocolSerialization {
       'impostor': impostor,
       'inLife': inLife,
       if (nbBuzzerLeft != null) 'nbBuzzerLeft': nbBuzzerLeft,
+      if (nbtaskLeft != null) 'nbtaskLeft': nbtaskLeft,
+      if (position != null) 'position': position?.toJsonForProtocol(),
     };
   }
 
@@ -138,6 +158,8 @@ class _UserImpl extends User {
     required bool impostor,
     required bool inLife,
     int? nbBuzzerLeft,
+    int? nbtaskLeft,
+    _i2.LatitudeLongitude? position,
   }) : super._(
           id: id,
           name: name,
@@ -146,6 +168,8 @@ class _UserImpl extends User {
           impostor: impostor,
           inLife: inLife,
           nbBuzzerLeft: nbBuzzerLeft,
+          nbtaskLeft: nbtaskLeft,
+          position: position,
         );
 
   @override
@@ -157,6 +181,8 @@ class _UserImpl extends User {
     bool? impostor,
     bool? inLife,
     Object? nbBuzzerLeft = _Undefined,
+    Object? nbtaskLeft = _Undefined,
+    Object? position = _Undefined,
   }) {
     return User(
       id: id is int? ? id : this.id,
@@ -166,6 +192,10 @@ class _UserImpl extends User {
       impostor: impostor ?? this.impostor,
       inLife: inLife ?? this.inLife,
       nbBuzzerLeft: nbBuzzerLeft is int? ? nbBuzzerLeft : this.nbBuzzerLeft,
+      nbtaskLeft: nbtaskLeft is int? ? nbtaskLeft : this.nbtaskLeft,
+      position: position is _i2.LatitudeLongitude?
+          ? position
+          : this.position?.copyWith(),
     );
   }
 }
@@ -196,6 +226,14 @@ class UserTable extends _i1.Table {
       'nbBuzzerLeft',
       this,
     );
+    nbtaskLeft = _i1.ColumnInt(
+      'nbtaskLeft',
+      this,
+    );
+    position = _i1.ColumnSerializable(
+      'position',
+      this,
+    );
   }
 
   late final _i1.ColumnString name;
@@ -210,6 +248,10 @@ class UserTable extends _i1.Table {
 
   late final _i1.ColumnInt nbBuzzerLeft;
 
+  late final _i1.ColumnInt nbtaskLeft;
+
+  late final _i1.ColumnSerializable position;
+
   @override
   List<_i1.Column> get columns => [
         id,
@@ -219,6 +261,8 @@ class UserTable extends _i1.Table {
         impostor,
         inLife,
         nbBuzzerLeft,
+        nbtaskLeft,
+        position,
       ];
 }
 

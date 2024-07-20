@@ -14,7 +14,7 @@ class GameSettings extends StatefulWidget {
 }
 
 class _GameSettingsState extends State<GameSettings> {
-  static const EdgeInsets marginButton = EdgeInsets.all(15.0);
+  static const EdgeInsets marginButton = EdgeInsets.all(10.0);
   static const double lengthBoutton = 75;
   List<String>? players;
   List<int> valueParam = <int>[1, 120, 2, 1, 150, 5, 10];
@@ -106,7 +106,7 @@ class _GameSettingsState extends State<GameSettings> {
                           Navigator.pop(context)
                         },
                         child: Container(
-                          margin: const EdgeInsets.all(20.0),
+                          margin: const EdgeInsets.all(30.0),
                           alignment: Alignment.bottomLeft,
                           child: const Icon(
                             Icons.arrow_back,
@@ -116,6 +116,7 @@ class _GameSettingsState extends State<GameSettings> {
                       ),
 
                       Container(
+                        margin: const EdgeInsets.all(30),
                         alignment: Alignment.center,
                         child: Text(
                           widget.currentLobby.name,
@@ -135,8 +136,8 @@ class _GameSettingsState extends State<GameSettings> {
                             width: 2,
                           )
                       ),
-                      height: 400,
-                      width: 500,
+                      height: 300,
+                      width: 400,
                       child: ListView(
                           children: [
                             for (int index = 0; index < LobbyValueBasics
@@ -184,7 +185,7 @@ class _GameSettingsState extends State<GameSettings> {
                                                   .toString()}${LobbyValueBasics
                                                   .screenValues[index]}",
                                               style: const TextStyle(
-                                                fontSize: 45,
+                                                fontSize: 35,
                                               )
                                           ),
                                         ),

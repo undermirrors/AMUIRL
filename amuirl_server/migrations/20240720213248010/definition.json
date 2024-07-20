@@ -2,6 +2,134 @@
   "moduleName": "amuirl",
   "tables": [
     {
+      "name": "game",
+      "dartName": "Game",
+      "module": "amuirl",
+      "schema": "public",
+      "columns": [
+        {
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('game_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "name": "lobby",
+          "columnType": 8,
+          "isNullable": false,
+          "dartType": "protocol:Lobby"
+        },
+        {
+          "name": "playersDead",
+          "columnType": 8,
+          "isNullable": false,
+          "dartType": "List<String>"
+        },
+        {
+          "name": "indexOfImpostors",
+          "columnType": 8,
+          "isNullable": false,
+          "dartType": "List<int>"
+        },
+        {
+          "name": "taskLeftForEachPlayers",
+          "columnType": 8,
+          "isNullable": false,
+          "dartType": "List<List<protocol:LatitudeLongitude>>"
+        },
+        {
+          "name": "cooldownKillByImpostors",
+          "columnType": 8,
+          "isNullable": false,
+          "dartType": "List<int>"
+        },
+        {
+          "name": "startedPoint",
+          "columnType": 8,
+          "isNullable": false,
+          "dartType": "protocol:LatitudeLongitude"
+        },
+        {
+          "name": "startedPointTriggered",
+          "columnType": 1,
+          "isNullable": false,
+          "dartType": "bool"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "indexName": "game_pkey",
+          "elements": [
+            {
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "indexName": "game_info_id_unique_idx",
+          "elements": [
+            {
+              "type": 0,
+              "definition": "lobby"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "name": "latitudelongitude",
+      "dartName": "LatitudeLongitude",
+      "module": "amuirl",
+      "schema": "public",
+      "columns": [
+        {
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('latitudelongitude_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "name": "latitude",
+          "columnType": 3,
+          "isNullable": false,
+          "dartType": "double"
+        },
+        {
+          "name": "longitude",
+          "columnType": 3,
+          "isNullable": false,
+          "dartType": "double"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "indexName": "latitudelongitude_pkey",
+          "elements": [
+            {
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        }
+      ],
+      "managed": true
+    },
+    {
       "name": "lobby",
       "dartName": "Lobby",
       "module": "amuirl",
@@ -31,6 +159,12 @@
           "columnType": 8,
           "isNullable": false,
           "dartType": "List<String>"
+        },
+        {
+          "name": "gameParameter",
+          "columnType": 8,
+          "isNullable": false,
+          "dartType": "List<int>"
         }
       ],
       "foreignKeys": [],
@@ -92,6 +226,36 @@
           "columnType": 6,
           "isNullable": false,
           "dartType": "int"
+        },
+        {
+          "name": "impostor",
+          "columnType": 1,
+          "isNullable": false,
+          "dartType": "bool"
+        },
+        {
+          "name": "inLife",
+          "columnType": 1,
+          "isNullable": false,
+          "dartType": "bool"
+        },
+        {
+          "name": "nbBuzzerLeft",
+          "columnType": 6,
+          "isNullable": true,
+          "dartType": "int?"
+        },
+        {
+          "name": "nbtaskLeft",
+          "columnType": 6,
+          "isNullable": true,
+          "dartType": "int?"
+        },
+        {
+          "name": "position",
+          "columnType": 8,
+          "isNullable": true,
+          "dartType": "protocol:LatitudeLongitude?"
         }
       ],
       "foreignKeys": [],
@@ -1264,7 +1428,7 @@
   "installedModules": [
     {
       "module": "amuirl",
-      "version": "20240710105811503"
+      "version": "20240720213248010"
     },
     {
       "module": "serverpod",

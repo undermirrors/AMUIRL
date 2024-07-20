@@ -3,11 +3,38 @@ BEGIN;
 --
 -- ACTION CREATE TABLE
 --
+CREATE TABLE "game" (
+    "id" bigserial PRIMARY KEY,
+    "lobby" json NOT NULL,
+    "playersDead" json NOT NULL,
+    "indexOfImpostors" json NOT NULL,
+    "taskLeftForEachPlayers" json NOT NULL,
+    "cooldownKillByImpostors" json NOT NULL,
+    "startedPoint" json NOT NULL,
+    "startedPointTriggered" boolean NOT NULL
+);
+
+-- Indexes
+CREATE UNIQUE INDEX "game_info_id_unique_idx" ON "game" USING btree ("lobby");
+
+--
+-- ACTION CREATE TABLE
+--
+CREATE TABLE "latitudelongitude" (
+    "id" bigserial PRIMARY KEY,
+    "latitude" double precision NOT NULL,
+    "longitude" double precision NOT NULL
+);
+
+--
+-- ACTION CREATE TABLE
+--
 CREATE TABLE "lobby" (
     "id" bigserial PRIMARY KEY,
     "name" text NOT NULL,
     "nbPlayer" bigint NOT NULL,
-    "players" json NOT NULL
+    "players" json NOT NULL,
+    "gameParameter" json NOT NULL
 );
 
 -- Indexes
@@ -20,7 +47,12 @@ CREATE TABLE "users" (
     "id" bigserial PRIMARY KEY,
     "name" text NOT NULL,
     "mdp" text NOT NULL,
-    "currentlobby" bigint NOT NULL
+    "currentlobby" bigint NOT NULL,
+    "impostor" boolean NOT NULL,
+    "inLife" boolean NOT NULL,
+    "nbBuzzerLeft" bigint,
+    "nbtaskLeft" bigint,
+    "position" json
 );
 
 -- Indexes
@@ -267,9 +299,9 @@ ALTER TABLE ONLY "serverpod_query_log"
 -- MIGRATION VERSION FOR amuirl
 --
 INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
-    VALUES ('amuirl', '20240710105811503', now())
+    VALUES ('amuirl', '20240720213248010', now())
     ON CONFLICT ("module")
-    DO UPDATE SET "version" = '20240710105811503', "timestamp" = now();
+    DO UPDATE SET "version" = '20240720213248010', "timestamp" = now();
 
 --
 -- MIGRATION VERSION FOR serverpod

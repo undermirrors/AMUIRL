@@ -1,6 +1,7 @@
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:amuirl_flutter/Pages/Utils/game_map.dart';
 import 'package:amuirl_flutter/Pages/Utils/providers.dart';
+import 'package:amuirl_flutter/Pages/Widget/GameCreation/task_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -116,6 +117,13 @@ class _LoadInterfaceState extends State<LoadInterface> {
                         if (map != null) {
                           context.read<MapProvider>().changeMap(newMap: map!),
                           print("mapLoaded !"),
+
+                          if(map!.lobbyMarkerPos != null) {
+                            fromLoadedMap = map!.lobbyMarkerPos,
+                          } else {
+                            fromLoadedMap = map!.taskMarkerCoord.first
+                          },
+
                           context.read<CreationPageChangeProvider>().changeToTaskSelector(lobby: widget.currentLobby)
                         } else {
                           print("cannot load map")

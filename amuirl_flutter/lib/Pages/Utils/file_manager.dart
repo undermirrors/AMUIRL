@@ -27,7 +27,7 @@ Future<File> writeSavedMap(GameMap map, String name) async {
   return file.writeAsString(json.encode(map));
 }
 
-Future<GameMap> readSaveMap(String name) async {
+Future<GameMap?> readSaveMap(String name) async {
   try {
     final file = await getSaveFile(name);
 
@@ -35,7 +35,7 @@ Future<GameMap> readSaveMap(String name) async {
     return GameMap.fromJson(json.decode(contents));
   } catch (e) {
     print('fail');
-    return GameMap(taskMarkerCoord: []);
+    return null;
   }
 }
 

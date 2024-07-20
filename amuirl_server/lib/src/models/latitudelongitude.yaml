@@ -1,0 +1,5 @@
+class: LatitudeLongitude
+table: latitudelongitude
+fields:
+  latitude: double
+  longitude: double

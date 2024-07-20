@@ -1,15 +1,15 @@
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:flutter/material.dart';
 
-class Game extends StatefulWidget {
-  Lobby currentLobby;
-  Game({super.key, required this.currentLobby});
+class GameInterface extends StatefulWidget {
+  final Lobby currentLobby;
+  GameInterface({super.key, required this.currentLobby});
 
   @override
-  State<Game> createState() => _GameState();
+  State<GameInterface> createState() => _GameInterfaceState();
 }
 
-class _GameState extends State<Game> {
+class _GameInterfaceState extends State<GameInterface> {
 
   @override
   Widget build(BuildContext context) {

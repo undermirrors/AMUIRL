@@ -12,11 +12,16 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
 import 'example.dart' as _i3;
-import 'lobbies.dart' as _i4;
-import 'users.dart' as _i5;
-import 'package:amuirl_server/src/generated/lobbies.dart' as _i6;
-import 'package:amuirl_server/src/generated/users.dart' as _i7;
+import 'game.dart' as _i4;
+import 'latitudelongitude.dart' as _i5;
+import 'lobbies.dart' as _i6;
+import 'users.dart' as _i7;
+import 'protocol.dart' as _i8;
+import 'package:amuirl_server/src/generated/lobbies.dart' as _i9;
+import 'package:amuirl_server/src/generated/users.dart' as _i10;
 export 'example.dart';
+export 'game.dart';
+export 'latitudelongitude.dart';
 export 'lobbies.dart';
 export 'users.dart';
 
@@ -28,6 +33,137 @@ class Protocol extends _i1.SerializationManagerServer {
   static final Protocol _instance = Protocol._();
 
   static final List<_i2.TableDefinition> targetTableDefinitions = [
+    _i2.TableDefinition(
+      name: 'game',
+      dartName: 'Game',
+      schema: 'public',
+      module: 'amuirl',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'game_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'lobby',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'protocol:Lobby',
+        ),
+        _i2.ColumnDefinition(
+          name: 'playersDead',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'List<String>',
+        ),
+        _i2.ColumnDefinition(
+          name: 'indexOfImpostors',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'List<int>',
+        ),
+        _i2.ColumnDefinition(
+          name: 'taskLeftForEachPlayers',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'List<List<protocol:LatitudeLongitude>>',
+        ),
+        _i2.ColumnDefinition(
+          name: 'cooldownKillByImpostors',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'List<int>',
+        ),
+        _i2.ColumnDefinition(
+          name: 'startedPoint',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'protocol:LatitudeLongitude',
+        ),
+        _i2.ColumnDefinition(
+          name: 'startedPointTriggered',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'game_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'game_info_id_unique_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'lobby',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'latitudelongitude',
+      dartName: 'LatitudeLongitude',
+      schema: 'public',
+      module: 'amuirl',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'latitudelongitude_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'latitude',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: false,
+          dartType: 'double',
+        ),
+        _i2.ColumnDefinition(
+          name: 'longitude',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: false,
+          dartType: 'double',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'latitudelongitude_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        )
+      ],
+      managed: true,
+    ),
     _i2.TableDefinition(
       name: 'lobby',
       dartName: 'Lobby',
@@ -146,6 +282,18 @@ class Protocol extends _i1.SerializationManagerServer {
           isNullable: true,
           dartType: 'int?',
         ),
+        _i2.ColumnDefinition(
+          name: 'nbtaskLeft',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'position',
+          columnType: _i2.ColumnType.json,
+          isNullable: true,
+          dartType: 'protocol:LatitudeLongitude?',
+        ),
       ],
       foreignKeys: [],
       indexes: [
@@ -190,20 +338,32 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i3.Example) {
       return _i3.Example.fromJson(data) as T;
     }
-    if (t == _i4.Lobby) {
-      return _i4.Lobby.fromJson(data) as T;
+    if (t == _i4.Game) {
+      return _i4.Game.fromJson(data) as T;
     }
-    if (t == _i5.User) {
-      return _i5.User.fromJson(data) as T;
+    if (t == _i5.LatitudeLongitude) {
+      return _i5.LatitudeLongitude.fromJson(data) as T;
+    }
+    if (t == _i6.Lobby) {
+      return _i6.Lobby.fromJson(data) as T;
+    }
+    if (t == _i7.User) {
+      return _i7.User.fromJson(data) as T;
     }
     if (t == _i1.getType<_i3.Example?>()) {
       return (data != null ? _i3.Example.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i4.Lobby?>()) {
-      return (data != null ? _i4.Lobby.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i4.Game?>()) {
+      return (data != null ? _i4.Game.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i5.User?>()) {
-      return (data != null ? _i5.User.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i5.LatitudeLongitude?>()) {
+      return (data != null ? _i5.LatitudeLongitude.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i6.Lobby?>()) {
+      return (data != null ? _i6.Lobby.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i7.User?>()) {
+      return (data != null ? _i7.User.fromJson(data) : null) as T;
     }
     if (t == List<String>) {
       return (data as List).map((e) => deserialize<String>(e)).toList()
@@ -212,15 +372,25 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == List<int>) {
       return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
     }
-    if (t == List<_i6.Lobby>) {
-      return (data as List).map((e) => deserialize<_i6.Lobby>(e)).toList()
+    if (t == List<List<_i8.LatitudeLongitude>>) {
+      return (data as List)
+          .map((e) => deserialize<List<_i8.LatitudeLongitude>>(e))
+          .toList() as dynamic;
+    }
+    if (t == List<_i8.LatitudeLongitude>) {
+      return (data as List)
+          .map((e) => deserialize<_i8.LatitudeLongitude>(e))
+          .toList() as dynamic;
+    }
+    if (t == List<_i9.Lobby>) {
+      return (data as List).map((e) => deserialize<_i9.Lobby>(e)).toList()
           as dynamic;
     }
     if (t == List<int>) {
       return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
     }
-    if (t == List<_i7.User>) {
-      return (data as List).map((e) => deserialize<_i7.User>(e)).toList()
+    if (t == List<_i10.User>) {
+      return (data as List).map((e) => deserialize<_i10.User>(e)).toList()
           as dynamic;
     }
     try {
@@ -234,10 +404,16 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i3.Example) {
       return 'Example';
     }
-    if (data is _i4.Lobby) {
+    if (data is _i4.Game) {
+      return 'Game';
+    }
+    if (data is _i5.LatitudeLongitude) {
+      return 'LatitudeLongitude';
+    }
+    if (data is _i6.Lobby) {
       return 'Lobby';
     }
-    if (data is _i5.User) {
+    if (data is _i7.User) {
       return 'User';
     }
     return super.getClassNameForObject(data);
@@ -248,11 +424,17 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data['className'] == 'Example') {
       return deserialize<_i3.Example>(data['data']);
     }
+    if (data['className'] == 'Game') {
+      return deserialize<_i4.Game>(data['data']);
+    }
+    if (data['className'] == 'LatitudeLongitude') {
+      return deserialize<_i5.LatitudeLongitude>(data['data']);
+    }
     if (data['className'] == 'Lobby') {
-      return deserialize<_i4.Lobby>(data['data']);
+      return deserialize<_i6.Lobby>(data['data']);
     }
     if (data['className'] == 'User') {
-      return deserialize<_i5.User>(data['data']);
+      return deserialize<_i7.User>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -266,10 +448,14 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
     switch (t) {
-      case _i4.Lobby:
-        return _i4.Lobby.t;
-      case _i5.User:
-        return _i5.User.t;
+      case _i4.Game:
+        return _i4.Game.t;
+      case _i5.LatitudeLongitude:
+        return _i5.LatitudeLongitude.t;
+      case _i6.Lobby:
+        return _i6.Lobby.t;
+      case _i7.User:
+        return _i7.User.t;
     }
     return null;
   }

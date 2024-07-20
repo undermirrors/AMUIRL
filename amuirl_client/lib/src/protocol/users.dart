@@ -9,6 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
+import 'protocol.dart' as _i2;
 
 abstract class User implements _i1.SerializableModel {
   User._({
@@ -19,6 +20,8 @@ abstract class User implements _i1.SerializableModel {
     required this.impostor,
     required this.inLife,
     this.nbBuzzerLeft,
+    this.nbtaskLeft,
+    this.position,
   });
 
   factory User({
@@ -29,6 +32,8 @@ abstract class User implements _i1.SerializableModel {
     required bool impostor,
     required bool inLife,
     int? nbBuzzerLeft,
+    int? nbtaskLeft,
+    _i2.LatitudeLongitude? position,
   }) = _UserImpl;
 
   factory User.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -40,6 +45,11 @@ abstract class User implements _i1.SerializableModel {
       impostor: jsonSerialization['impostor'] as bool,
       inLife: jsonSerialization['inLife'] as bool,
       nbBuzzerLeft: jsonSerialization['nbBuzzerLeft'] as int?,
+      nbtaskLeft: jsonSerialization['nbtaskLeft'] as int?,
+      position: jsonSerialization['position'] == null
+          ? null
+          : _i2.LatitudeLongitude.fromJson(
+              (jsonSerialization['position'] as Map<String, dynamic>)),
     );
   }
 
@@ -60,6 +70,10 @@ abstract class User implements _i1.SerializableModel {
 
   int? nbBuzzerLeft;
 
+  int? nbtaskLeft;
+
+  _i2.LatitudeLongitude? position;
+
   User copyWith({
     int? id,
     String? name,
@@ -68,6 +82,8 @@ abstract class User implements _i1.SerializableModel {
     bool? impostor,
     bool? inLife,
     int? nbBuzzerLeft,
+    int? nbtaskLeft,
+    _i2.LatitudeLongitude? position,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -79,6 +95,8 @@ abstract class User implements _i1.SerializableModel {
       'impostor': impostor,
       'inLife': inLife,
       if (nbBuzzerLeft != null) 'nbBuzzerLeft': nbBuzzerLeft,
+      if (nbtaskLeft != null) 'nbtaskLeft': nbtaskLeft,
+      if (position != null) 'position': position?.toJson(),
     };
   }
 
@@ -99,6 +117,8 @@ class _UserImpl extends User {
     required bool impostor,
     required bool inLife,
     int? nbBuzzerLeft,
+    int? nbtaskLeft,
+    _i2.LatitudeLongitude? position,
   }) : super._(
           id: id,
           name: name,
@@ -107,6 +127,8 @@ class _UserImpl extends User {
           impostor: impostor,
           inLife: inLife,
           nbBuzzerLeft: nbBuzzerLeft,
+          nbtaskLeft: nbtaskLeft,
+          position: position,
         );
 
   @override
@@ -118,6 +140,8 @@ class _UserImpl extends User {
     bool? impostor,
     bool? inLife,
     Object? nbBuzzerLeft = _Undefined,
+    Object? nbtaskLeft = _Undefined,
+    Object? position = _Undefined,
   }) {
     return User(
       id: id is int? ? id : this.id,
@@ -127,6 +151,10 @@ class _UserImpl extends User {
       impostor: impostor ?? this.impostor,
       inLife: inLife ?? this.inLife,
       nbBuzzerLeft: nbBuzzerLeft is int? ? nbBuzzerLeft : this.nbBuzzerLeft,
+      nbtaskLeft: nbtaskLeft is int? ? nbtaskLeft : this.nbtaskLeft,
+      position: position is _i2.LatitudeLongitude?
+          ? position
+          : this.position?.copyWith(),
     );
   }
 }

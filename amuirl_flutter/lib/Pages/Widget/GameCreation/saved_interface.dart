@@ -2,6 +2,7 @@ import 'package:amuirl_client/amuirl_client.dart';
 import 'package:amuirl_flutter/Pages/Utils/game_map.dart';
 import 'package:amuirl_flutter/Pages/Utils/providers.dart';
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import '../../Utils/file_manager.dart';
 
@@ -20,17 +21,9 @@ class _SavedInterfaceState extends State<SavedInterface> {
   build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[50],
-      appBar: AppBar(
-        backgroundColor: Colors.blue[50],
-        title: Container(
-          alignment: Alignment.center,
-          child: const Text("Sauvergarder les marqueurs"),
-        ),
-      ),
 
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
             height: 100,
@@ -83,8 +76,8 @@ class _SavedInterfaceState extends State<SavedInterface> {
                   child: Container(
                     alignment: Alignment.center,
                     width: 200,
-                    height: 200,
-                    margin: const EdgeInsets.all(20),
+                    height: 100,
+                    margin: const EdgeInsets.fromLTRB(0.0, 120, 0.0, 0.0),
                     color: Colors.grey,
                     child: const Text(
                       "Sauvergarder",

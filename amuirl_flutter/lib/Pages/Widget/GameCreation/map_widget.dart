@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:amuirl_flutter/Pages/Utils/providers.dart';
+import 'package:amuirl_flutter/Pages/Widget/GameCreation/task_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 
 Position? currentLocation;
 bool servicePermission = false;
@@ -12,6 +16,9 @@ late LocationPermission permission;
 final MapController mapController = MapController();
 
 Future<bool> getCurrentLocation() async {
+  if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+    return false;
+  }
   servicePermission = await Geolocator.isLocationServiceEnabled();
   if (!servicePermission) {
     print("service disabled");
@@ -35,7 +42,6 @@ class MapWidget extends StatefulWidget {
 }
 
 class _MapWidgetState extends State<MapWidget> {
-  Marker? positionPlayer;
   LatLng? temporaryMarkerPos;
   double zoom = 17.0;
 
@@ -46,6 +52,10 @@ class _MapWidgetState extends State<MapWidget> {
   @override
   build(BuildContext context) {
     getCurrentLocation();
+    if (fromLoadedMap != null) {
+      mapController.move(fromLoadedMap!, zoom);
+      fromLoadedMap = null;
+    }
 
     if (temporaryMarkerPos != null) {
       switch (widget.newMarker) {
@@ -137,8 +147,9 @@ class _MapWidgetState extends State<MapWidget> {
           ],
         ),
 
-        MarkerLayer(markers: positionPlayer == null ? markers : markers + <Marker>[positionPlayer!]),
+        MarkerLayer(markers: markers),
 
+        CurrentLocationLayer(),
 
         Container(
           alignment: Alignment.topRight,
@@ -200,19 +211,7 @@ class _MapWidgetState extends State<MapWidget> {
             onTap: () async => {
               if (await getCurrentLocation()) {
                 setState(() {
-                  positionPlayer = Marker(
-                    alignment: Alignment.center,
-                    point: LatLng(currentLocation!.latitude, currentLocation!.longitude),
-                    child: const Icon(
-                      Icons.square,
-                      color: Colors.red,
-                    )
-                  );
                   mapController.move(LatLng(currentLocation!.latitude, currentLocation!.longitude), zoom);
-                })
-              } else {
-                setState(() {
-                  positionPlayer = null;
                 })
               }
             },
