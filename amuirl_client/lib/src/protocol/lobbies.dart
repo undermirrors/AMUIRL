@@ -17,6 +17,7 @@ abstract class Lobby implements _i1.SerializableModel {
     required this.nbPlayer,
     required this.players,
     required this.gameParameter,
+    required this.gameLaunched,
   });
 
   factory Lobby({
@@ -25,6 +26,7 @@ abstract class Lobby implements _i1.SerializableModel {
     required int nbPlayer,
     required List<String> players,
     required List<int> gameParameter,
+    required bool gameLaunched,
   }) = _LobbyImpl;
 
   factory Lobby.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -38,6 +40,7 @@ abstract class Lobby implements _i1.SerializableModel {
       gameParameter: (jsonSerialization['gameParameter'] as List)
           .map((e) => e as int)
           .toList(),
+      gameLaunched: jsonSerialization['gameLaunched'] as bool,
     );
   }
 
@@ -54,12 +57,15 @@ abstract class Lobby implements _i1.SerializableModel {
 
   List<int> gameParameter;
 
+  bool gameLaunched;
+
   Lobby copyWith({
     int? id,
     String? name,
     int? nbPlayer,
     List<String>? players,
     List<int>? gameParameter,
+    bool? gameLaunched,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -69,6 +75,7 @@ abstract class Lobby implements _i1.SerializableModel {
       'nbPlayer': nbPlayer,
       'players': players.toJson(),
       'gameParameter': gameParameter.toJson(),
+      'gameLaunched': gameLaunched,
     };
   }
 
@@ -87,12 +94,14 @@ class _LobbyImpl extends Lobby {
     required int nbPlayer,
     required List<String> players,
     required List<int> gameParameter,
+    required bool gameLaunched,
   }) : super._(
           id: id,
           name: name,
           nbPlayer: nbPlayer,
           players: players,
           gameParameter: gameParameter,
+          gameLaunched: gameLaunched,
         );
 
   @override
@@ -102,6 +111,7 @@ class _LobbyImpl extends Lobby {
     int? nbPlayer,
     List<String>? players,
     List<int>? gameParameter,
+    bool? gameLaunched,
   }) {
     return Lobby(
       id: id is int? ? id : this.id,
@@ -109,6 +119,7 @@ class _LobbyImpl extends Lobby {
       nbPlayer: nbPlayer ?? this.nbPlayer,
       players: players ?? this.players.clone(),
       gameParameter: gameParameter ?? this.gameParameter.clone(),
+      gameLaunched: gameLaunched ?? this.gameLaunched,
     );
   }
 }

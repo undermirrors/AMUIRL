@@ -8,7 +8,3 @@ fields:
   cooldownKillByImpostors: List<int>
   startedPoint: LatitudeLongitude
   startedPointTriggered: bool
-indexes:
-  game_info_id_unique_idx:
-    fields: lobby
-    unique: true

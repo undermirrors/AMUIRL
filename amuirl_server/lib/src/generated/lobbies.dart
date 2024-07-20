@@ -18,6 +18,7 @@ abstract class Lobby extends _i1.TableRow implements _i1.ProtocolSerialization {
     required this.nbPlayer,
     required this.players,
     required this.gameParameter,
+    required this.gameLaunched,
   }) : super(id);
 
   factory Lobby({
@@ -26,6 +27,7 @@ abstract class Lobby extends _i1.TableRow implements _i1.ProtocolSerialization {
     required int nbPlayer,
     required List<String> players,
     required List<int> gameParameter,
+    required bool gameLaunched,
   }) = _LobbyImpl;
 
   factory Lobby.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -39,6 +41,7 @@ abstract class Lobby extends _i1.TableRow implements _i1.ProtocolSerialization {
       gameParameter: (jsonSerialization['gameParameter'] as List)
           .map((e) => e as int)
           .toList(),
+      gameLaunched: jsonSerialization['gameLaunched'] as bool,
     );
   }
 
@@ -54,6 +57,8 @@ abstract class Lobby extends _i1.TableRow implements _i1.ProtocolSerialization {
 
   List<int> gameParameter;
 
+  bool gameLaunched;
+
   @override
   _i1.Table get table => t;
 
@@ -63,6 +68,7 @@ abstract class Lobby extends _i1.TableRow implements _i1.ProtocolSerialization {
     int? nbPlayer,
     List<String>? players,
     List<int>? gameParameter,
+    bool? gameLaunched,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -72,6 +78,7 @@ abstract class Lobby extends _i1.TableRow implements _i1.ProtocolSerialization {
       'nbPlayer': nbPlayer,
       'players': players.toJson(),
       'gameParameter': gameParameter.toJson(),
+      'gameLaunched': gameLaunched,
     };
   }
 
@@ -83,6 +90,7 @@ abstract class Lobby extends _i1.TableRow implements _i1.ProtocolSerialization {
       'nbPlayer': nbPlayer,
       'players': players.toJson(),
       'gameParameter': gameParameter.toJson(),
+      'gameLaunched': gameLaunched,
     };
   }
 
@@ -125,12 +133,14 @@ class _LobbyImpl extends Lobby {
     required int nbPlayer,
     required List<String> players,
     required List<int> gameParameter,
+    required bool gameLaunched,
   }) : super._(
           id: id,
           name: name,
           nbPlayer: nbPlayer,
           players: players,
           gameParameter: gameParameter,
+          gameLaunched: gameLaunched,
         );
 
   @override
@@ -140,6 +150,7 @@ class _LobbyImpl extends Lobby {
     int? nbPlayer,
     List<String>? players,
     List<int>? gameParameter,
+    bool? gameLaunched,
   }) {
     return Lobby(
       id: id is int? ? id : this.id,
@@ -147,6 +158,7 @@ class _LobbyImpl extends Lobby {
       nbPlayer: nbPlayer ?? this.nbPlayer,
       players: players ?? this.players.clone(),
       gameParameter: gameParameter ?? this.gameParameter.clone(),
+      gameLaunched: gameLaunched ?? this.gameLaunched,
     );
   }
 }
@@ -169,6 +181,10 @@ class LobbyTable extends _i1.Table {
       'gameParameter',
       this,
     );
+    gameLaunched = _i1.ColumnBool(
+      'gameLaunched',
+      this,
+    );
   }
 
   late final _i1.ColumnString name;
@@ -179,6 +195,8 @@ class LobbyTable extends _i1.Table {
 
   late final _i1.ColumnSerializable gameParameter;
 
+  late final _i1.ColumnBool gameLaunched;
+
   @override
   List<_i1.Column> get columns => [
         id,
@@ -186,6 +204,7 @@ class LobbyTable extends _i1.Table {
         nbPlayer,
         players,
         gameParameter,
+        gameLaunched,
       ];
 }
 

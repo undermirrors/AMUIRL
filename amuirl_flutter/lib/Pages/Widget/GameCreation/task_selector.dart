@@ -8,7 +8,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import '../../../main.dart';
 import '../../Utils/file_manager.dart';
-import '../game.dart';
 
 LatLng? fromLoadedMap;
 
@@ -22,6 +21,7 @@ class TaskSelector extends StatefulWidget {
 
 class _TaskSelectorState extends State<TaskSelector> {
   GlobalKey<ScaffoldState> scaffoldTaskKey = GlobalKey<ScaffoldState>();
+
   int nbTask = 0;
   int newMarker = 0;
   int? selectedMarker;
@@ -43,17 +43,15 @@ class _TaskSelectorState extends State<TaskSelector> {
   @override
   Widget build(BuildContext context) {
     var taskPlaced = context.watch<MapProvider>().map.taskMarkerCoord.length;
-    setState(() {
-      taskLeftToPlace(taskPlaced);
-      if (newMarker != 0) {
-        if (markerAlreadyApprovedOnce) {
-          newMarker = 0;
-          selectedMarker = null;
-        } else {
-          markerAlreadyApprovedOnce = true;
-        }
+    taskLeftToPlace(taskPlaced);
+    if (newMarker != 0) {
+      if (markerAlreadyApprovedOnce) {
+        newMarker = 0;
+        selectedMarker = null;
+      } else {
+        markerAlreadyApprovedOnce = true;
       }
-    });
+    }
 
     return Scaffold(
       backgroundColor: Colors.blue[50],
@@ -165,7 +163,6 @@ class _TaskSelectorState extends State<TaskSelector> {
               child: MapWidget(newMarker: newMarker, selectedMarker: selectedMarker),
             ),
 
-
             Container(
               height: 50,
               width: 420,
@@ -177,13 +174,11 @@ class _TaskSelectorState extends State<TaskSelector> {
                   if(context.watch<MapProvider>().map.lobbyMarkerPos != null)
                     GestureDetector(
                       onTap: () => {
-                        setState(() {
-                          if (selectedMarker == -1) {
-                            selectedMarker = null;
-                          } else {
-                            selectedMarker = -1;
-                          }
-                        })
+                        if (selectedMarker == -1) {
+                          selectedMarker = null
+                        } else {
+                          selectedMarker = -1
+                        }
                       },
                     child :Container(
                       height: 30,
@@ -198,13 +193,11 @@ class _TaskSelectorState extends State<TaskSelector> {
                     for (int i = 0; i < context.watch<MapProvider>().map.taskMarkerCoord.length; i++)
                       GestureDetector(
                         onTap: () => {
-                          setState(() {
-                            if (selectedMarker == i) {
-                              selectedMarker = null;
-                            } else {
-                              selectedMarker = i;
-                            }
-                          })
+                          if (selectedMarker == i) {
+                            selectedMarker = null
+                          } else {
+                            selectedMarker = i
+                          }
                         },
                         child: Container(
                           height: 30,
@@ -223,10 +216,8 @@ class _TaskSelectorState extends State<TaskSelector> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      newMarker = 1;
-                      markerAlreadyApprovedOnce = false;
-                    });
+                    newMarker = 1;
+                    markerAlreadyApprovedOnce = false;
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -246,12 +237,10 @@ class _TaskSelectorState extends State<TaskSelector> {
 
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      newMarker = 3;
-                      if (selectedMarker == -1) {
-                      }
-                      markerAlreadyApprovedOnce = false;
-                    });
+                    newMarker = 3;
+                    if (selectedMarker == -1) {
+                    }
+                    markerAlreadyApprovedOnce = false;
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -271,10 +260,8 @@ class _TaskSelectorState extends State<TaskSelector> {
                 GestureDetector(
                   onTap: () {
                     if (nbTask > 0) {
-                      setState(() {
-                        newMarker = 2;
-                        markerAlreadyApprovedOnce = false;
-                      });
+                      newMarker = 2;
+                      markerAlreadyApprovedOnce = false;
                     }
                   },
                   child: Container(

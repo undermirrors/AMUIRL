@@ -76,6 +76,7 @@ class _LobbyNameState extends State<LobbyName> {
                               nbPlayer: 1,
                               players: <String>[currentUser!.name],
                               gameParameter: LobbyValueBasics.defaultValues,
+                              gameLaunched: false,
                             )
                         );
                         List<Lobby> newLobby = await client.lobbies.getAllLobby(keyword: nameLobby.text);

@@ -5,7 +5,4 @@ fields:
   nbPlayer: int
   players: List<String>
   gameParameter: List<int>
-indexes:
-  lobby_info_id_unique_idx:
-    fields: name
-    unique: true
+  gameLaunched: bool

@@ -1,0 +1,84 @@
+{
+  "actions": [
+    {
+      "type": "deleteTable",
+      "deleteTable": "lobby"
+    },
+    {
+      "type": "createTable",
+      "createTable": {
+        "name": "lobby",
+        "dartName": "Lobby",
+        "module": "amuirl",
+        "schema": "public",
+        "columns": [
+          {
+            "name": "id",
+            "columnType": 6,
+            "isNullable": false,
+            "columnDefault": "nextval('lobby_id_seq'::regclass)",
+            "dartType": "int?"
+          },
+          {
+            "name": "name",
+            "columnType": 0,
+            "isNullable": false,
+            "dartType": "String"
+          },
+          {
+            "name": "nbPlayer",
+            "columnType": 6,
+            "isNullable": false,
+            "dartType": "int"
+          },
+          {
+            "name": "players",
+            "columnType": 8,
+            "isNullable": false,
+            "dartType": "List<String>"
+          },
+          {
+            "name": "gameParameter",
+            "columnType": 8,
+            "isNullable": false,
+            "dartType": "List<int>"
+          },
+          {
+            "name": "gameLaunched",
+            "columnType": 1,
+            "isNullable": false,
+            "dartType": "bool"
+          }
+        ],
+        "foreignKeys": [],
+        "indexes": [
+          {
+            "indexName": "lobby_pkey",
+            "elements": [
+              {
+                "type": 0,
+                "definition": "id"
+              }
+            ],
+            "type": "btree",
+            "isUnique": true,
+            "isPrimary": true
+          }
+        ],
+        "managed": true
+      }
+    }
+  ],
+  "warnings": [
+    {
+      "type": "tableDropped",
+      "message": "One or more columns are added to table \"lobby\" which cannot be added in a table migration. The complete table will be deleted and recreated.",
+      "table": "lobby",
+      "columns": [
+        "gameLaunched"
+      ],
+      "destrucive": true
+    }
+  ],
+  "migrationApiVersion": 1
+}

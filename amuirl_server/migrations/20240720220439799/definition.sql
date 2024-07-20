@@ -299,9 +299,9 @@ ALTER TABLE ONLY "serverpod_query_log"
 -- MIGRATION VERSION FOR amuirl
 --
 INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
-    VALUES ('amuirl', '20240720213248010', now())
+    VALUES ('amuirl', '20240720220439799', now())
     ON CONFLICT ("module")
-    DO UPDATE SET "version" = '20240720213248010', "timestamp" = now();
+    DO UPDATE SET "version" = '20240720220439799', "timestamp" = now();
 
 --
 -- MIGRATION VERSION FOR serverpod

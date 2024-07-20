@@ -1,0 +1,18 @@
+{
+  "actions": [
+    {
+      "type": "deleteTable",
+      "deleteTable": "game"
+    }
+  ],
+  "warnings": [
+    {
+      "type": "tableDropped",
+      "message": "Table \"game\" will be dropped.",
+      "table": "game",
+      "columns": [],
+      "destrucive": true
+    }
+  ],
+  "migrationApiVersion": 1
+}

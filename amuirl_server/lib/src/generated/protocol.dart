@@ -103,20 +103,7 @@ class Protocol extends _i1.SerializationManagerServer {
           type: 'btree',
           isUnique: true,
           isPrimary: true,
-        ),
-        _i2.IndexDefinition(
-          indexName: 'game_info_id_unique_idx',
-          tableSpace: null,
-          elements: [
-            _i2.IndexElementDefinition(
-              type: _i2.IndexElementDefinitionType.column,
-              definition: 'lobby',
-            )
-          ],
-          type: 'btree',
-          isUnique: true,
-          isPrimary: false,
-        ),
+        )
       ],
       managed: true,
     ),
@@ -201,6 +188,12 @@ class Protocol extends _i1.SerializationManagerServer {
           isNullable: false,
           dartType: 'List<int>',
         ),
+        _i2.ColumnDefinition(
+          name: 'gameLaunched',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
       ],
       foreignKeys: [],
       indexes: [
@@ -216,20 +209,7 @@ class Protocol extends _i1.SerializationManagerServer {
           type: 'btree',
           isUnique: true,
           isPrimary: true,
-        ),
-        _i2.IndexDefinition(
-          indexName: 'lobby_info_id_unique_idx',
-          tableSpace: null,
-          elements: [
-            _i2.IndexElementDefinition(
-              type: _i2.IndexElementDefinitionType.column,
-              definition: 'name',
-            )
-          ],
-          type: 'btree',
-          isUnique: true,
-          isPrimary: false,
-        ),
+        )
       ],
       managed: true,
     ),
@@ -309,20 +289,7 @@ class Protocol extends _i1.SerializationManagerServer {
           type: 'btree',
           isUnique: true,
           isPrimary: true,
-        ),
-        _i2.IndexDefinition(
-          indexName: 'users_info_id_unique_idx',
-          tableSpace: null,
-          elements: [
-            _i2.IndexElementDefinition(
-              type: _i2.IndexElementDefinitionType.column,
-              definition: 'name',
-            )
-          ],
-          type: 'btree',
-          isUnique: true,
-          isPrimary: false,
-        ),
+        )
       ],
       managed: true,
     ),
