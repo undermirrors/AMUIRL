@@ -1,5 +1,5 @@
 import 'package:amuirl_client/amuirl_client.dart';
-import 'package:amuirl_flutter/Pages/providers.dart';
+import 'package:amuirl_flutter/Pages/Utils/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

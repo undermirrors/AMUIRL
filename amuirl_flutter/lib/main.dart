@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:amuirl_client/amuirl_client.dart';
-import 'package:amuirl_flutter/Pages/join_game.dart';
-import 'package:amuirl_flutter/Pages/lobby_joined_interface.dart';
-import 'package:amuirl_flutter/Pages/lobby_name.dart';
-import 'package:amuirl_flutter/Pages/main_menu.dart';
-import 'package:amuirl_flutter/Pages/profile.dart';
-import 'package:amuirl_flutter/Pages/settings.dart';
-import 'package:amuirl_flutter/Pages/user_connexion.dart';
+import 'package:amuirl_flutter/Pages/Widget/join_game.dart';
+import 'package:amuirl_flutter/Pages/Widget/lobby_joined_interface.dart';
+import 'package:amuirl_flutter/Pages/Widget/lobby_name.dart';
+import 'package:amuirl_flutter/Pages/Widget/main_menu.dart';
+import 'package:amuirl_flutter/Pages/Widget/profile.dart';
+import 'package:amuirl_flutter/Pages/Widget/settings.dart';
+import 'package:amuirl_flutter/Pages/Widget/user_connexion.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
 var client = Client('http://$localhost:8080/')

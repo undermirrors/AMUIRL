@@ -1,7 +1,7 @@
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:flutter/material.dart';
-import '../main.dart';
-import 'lobby_value_basics.dart';
+import '../../main.dart';
+import '../Utils/lobby_value_basics.dart';
 
 class LobbyJoinedInterface extends StatefulWidget {
   const LobbyJoinedInterface({super.key});

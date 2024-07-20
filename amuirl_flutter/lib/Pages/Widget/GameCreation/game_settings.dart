@@ -1,9 +1,9 @@
 import 'package:amuirl_client/amuirl_client.dart';
-import 'package:amuirl_flutter/Pages/lobby_value_basics.dart';
-import 'package:amuirl_flutter/Pages/providers.dart';
+import 'package:amuirl_flutter/Pages/Utils/lobby_value_basics.dart';
+import 'package:amuirl_flutter/Pages/Utils/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../main.dart';
+import '../../../main.dart';
 
 class GameSettings extends StatefulWidget {
   Lobby currentLobby;

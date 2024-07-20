@@ -1,12 +1,12 @@
 import 'package:amuirl_client/amuirl_client.dart';
-import 'package:amuirl_flutter/Pages/game_map.dart';
-import 'package:amuirl_flutter/Pages/map_widget.dart';
-import 'package:amuirl_flutter/Pages/providers.dart';
+import 'package:amuirl_flutter/Pages/Utils/game_map.dart';
+import 'package:amuirl_flutter/Pages/Widget/GameCreation/map_widget.dart';
+import 'package:amuirl_flutter/Pages/Utils/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../main.dart';
-import 'file_manager.dart';
-import 'game.dart';
+import '../../../main.dart';
+import '../../Utils/file_manager.dart';
+import '../game.dart';
 
 class TaskSelector extends StatefulWidget {
   Lobby currentLobby;

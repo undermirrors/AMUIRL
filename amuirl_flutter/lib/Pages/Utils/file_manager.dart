@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:amuirl_flutter/Pages/game_map.dart';
+import 'package:amuirl_flutter/Pages/Utils/game_map.dart';
 import 'package:path_provider/path_provider.dart';
 
 

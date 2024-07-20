@@ -1,6 +1,6 @@
 import 'package:amuirl_client/amuirl_client.dart';
-import 'package:amuirl_flutter/Pages/lobby_creation.dart';
-import 'package:amuirl_flutter/Pages/lobby_value_basics.dart';
+import 'package:amuirl_flutter/Pages/Widget/GameCreation/lobby_creation.dart';
+import 'package:amuirl_flutter/Pages/Utils/lobby_value_basics.dart';
 import 'package:amuirl_flutter/main.dart';
 import 'package:flutter/material.dart';
 

@@ -1,8 +1,8 @@
 import 'package:amuirl_client/amuirl_client.dart';
-import 'package:amuirl_flutter/Pages/game_settings.dart';
-import 'package:amuirl_flutter/Pages/load_interface.dart';
-import 'package:amuirl_flutter/Pages/saved_interface.dart';
-import 'package:amuirl_flutter/Pages/task_selector.dart';
+import 'package:amuirl_flutter/Pages/Widget/GameCreation/game_settings.dart';
+import 'package:amuirl_flutter/Pages/Widget/GameCreation/load_interface.dart';
+import 'package:amuirl_flutter/Pages/Widget/GameCreation/saved_interface.dart';
+import 'package:amuirl_flutter/Pages/Widget/GameCreation/task_selector.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'game_map.dart';

@@ -1,7 +1,7 @@
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:flutter/material.dart';
 
-import '../main.dart';
+import '../../main.dart';
 
 class UserConnexion extends StatefulWidget {
   const UserConnexion({super.key});
