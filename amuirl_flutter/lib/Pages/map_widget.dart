@@ -1,8 +1,10 @@
+import 'package:amuirl_flutter/Pages/providers.dart';
 import 'package:amuirl_flutter/Pages/task_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Position? currentLocation;
@@ -35,7 +37,6 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
   Marker? positionPlayer;
-  LatLng? lobbyMarkerPos;
   LatLng? temporaryMarkerPos;
   double zoom = 17.0;
 
@@ -53,13 +54,13 @@ class _MapWidgetState extends State<MapWidget> {
           break;
         case 1:
           setState(() {
-            lobbyMarkerPos = temporaryMarkerPos!;
+            map.lobbyMarkerPos = temporaryMarkerPos!;
             temporaryMarkerPos = null;
           });
           break;
         case 2:
           setState(() {
-            taskMarkerCoord.add(temporaryMarkerPos!);
+            map.taskMarkerCoord.add(temporaryMarkerPos!);
             temporaryMarkerPos = null;
           });
         default:
@@ -70,9 +71,9 @@ class _MapWidgetState extends State<MapWidget> {
         setState(() {
           if (widget.selectedMarker != null) {
             if (widget.selectedMarker == -1) {
-              lobbyMarkerPos = null;
+              map.lobbyMarkerPos = null;
             } else {
-              taskMarkerCoord.removeAt(widget.selectedMarker!);
+              map.taskMarkerCoord.removeAt(widget.selectedMarker!);
             }
           }
           temporaryMarkerPos = null;
@@ -81,10 +82,10 @@ class _MapWidgetState extends State<MapWidget> {
     }
 
     List<Marker> markers = [];
-    if (lobbyMarkerPos != null) {
+    if (map.lobbyMarkerPos != null) {
       markers.add(
         createMarker(
-          lobbyMarkerPos!,
+          map.lobbyMarkerPos!,
           Icon(
             Icons.warehouse_rounded,
             color: (widget.selectedMarker != -1) ? Colors.black : Colors.red
@@ -100,10 +101,10 @@ class _MapWidgetState extends State<MapWidget> {
         )
       );
     }
-    for (int i = 0; i < taskMarkerCoord.length; i++) {
+    for (int i = 0; i < map.taskMarkerCoord.length; i++) {
       markers.add(
         createMarker(
-          taskMarkerCoord[i],
+          map.taskMarkerCoord[i],
           Icon(
             Icons.build_circle,
             color: (widget.selectedMarker != i) ? Colors.black : Colors.red)

@@ -1,12 +1,16 @@
 import 'package:amuirl_client/amuirl_client.dart';
+import 'package:amuirl_flutter/Pages/load_interface.dart';
 import 'package:amuirl_flutter/Pages/map_widget.dart';
+import 'package:amuirl_flutter/Pages/providers.dart';
+import 'package:amuirl_flutter/Pages/saved_interface.dart';
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 import '../main.dart';
+import 'file_manager.dart';
 import 'game.dart';
+import 'game_map.dart';
 
-
-List<LatLng> taskMarkerCoord = [];
+GameMap map = GameMap(taskMarkerCoord: []);
 
 class TaskSelector extends StatefulWidget {
   Lobby currentLobby;
@@ -17,6 +21,7 @@ class TaskSelector extends StatefulWidget {
 }
 
 class _TaskSelectorState extends State<TaskSelector> {
+  GlobalKey<ScaffoldState> scaffoldTaskKey = GlobalKey<ScaffoldState>();
   int nbTask = 0;
   bool startingPointPlaced = false;
   int newMarker = 0;
@@ -30,7 +35,7 @@ class _TaskSelectorState extends State<TaskSelector> {
       if (lobby != null) {
         setState(() {
           widget.currentLobby = lobby;
-          nbTask = lobby.gameParameter[6] - taskMarkerCoord.length;
+          nbTask = lobby.gameParameter[6] - map.taskMarkerCoord.length;
         });
       }
     }
@@ -40,6 +45,7 @@ class _TaskSelectorState extends State<TaskSelector> {
   Widget build(BuildContext context) {
     setState(() {
       taskLeftToPlace();
+      print("here");
       if (newMarker != 0) {
         if (markerAlreadyApprovedOnce) {
           newMarker = 0;
@@ -52,14 +58,114 @@ class _TaskSelectorState extends State<TaskSelector> {
 
     return Scaffold(
       backgroundColor: Colors.blue[50],
-      appBar: AppBar(
-        backgroundColor: Colors.blue[50],
-        title: const Text("Selection des tâches"),
+      key: scaffoldTaskKey,
+      endDrawer: Drawer(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+                children: [
+                DrawerHeader(
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: 235,
+                    height: 100,
+                    child: const Text(
+                      "Options avancées",
+                      style: TextStyle(
+                        fontSize: 28,
+                      ),
+                    ),
+                  ),
+                ),
+
+                Container(
+                    margin: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
+                    child: ListTile(
+                      leading: const Icon(Icons.file_copy),
+                      title: const Text("S A U V E G A R D E R"),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SavedInterface(map: map)));
+                      },
+                    )
+                ),
+
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
+                  child: ListTile(
+                    leading: const Icon(Icons.file_download_sharp),
+                    title: const Text("C H A R G E R"),
+                    onTap: () async {
+                      String path = await localPath;
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoadInterface(path: path)));
+                    },
+                  ),
+                ),
+              ]
+            ),
+
+            Container(
+              margin: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
+              child: ListTile(
+                leading: const Icon(Icons.arrow_back),
+                title: const Text("R E T O U R"),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              )
+            ),
+          ],
+        )
       ),
+
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    map.clear(); // We clear the map when we return to the previous page
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 50,
+                    width: 50,
+                    margin: const EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 35.0),
+                    child: const Icon(Icons.arrow_back),
+                  ),
+                ),
+
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 30.0),
+                  height: 50,
+                  width: 250,
+                  child: const Text(
+                    "Selection des tâches",
+                    style: TextStyle(
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
+
+                GestureDetector(
+                  onTap: () {
+                    scaffoldTaskKey.currentState?.openEndDrawer();
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 50,
+                    width: 50,
+                    margin: const EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 35.0),
+                    child: const Icon(Icons.menu),
+                  ),
+                ),
+              ],
+            ),
+
             Text(
               "nombre de tâches restantes à placer : $nbTask",
               style: const TextStyle(
@@ -103,8 +209,8 @@ class _TaskSelectorState extends State<TaskSelector> {
                     ),
                   ),
 
-                  if (taskMarkerCoord.isNotEmpty)
-                    for (int i = 0; i < taskMarkerCoord.length; i++)
+                  if (map.taskMarkerCoord.isNotEmpty)
+                    for (int i = 0; i < map.taskMarkerCoord.length; i++)
                       GestureDetector(
                         onTap: () => {
                           setState(() {
@@ -208,33 +314,45 @@ class _TaskSelectorState extends State<TaskSelector> {
 
             GestureDetector(
               onTap: () {
-                if (startingPointPlaced) {
+                if (startingPointPlaced && nbTask <= 0) {
                   Navigator.push(context, MaterialPageRoute(
-                      builder: (context) =>
-                          Game(currentLobby: widget.currentLobby,)));
+                    builder: (context) =>
+                      Game(currentLobby: widget.currentLobby,)));
+                } else {
+                  print("You can't start the game without have all the task");
                 }
               },
               child: Container(
                 alignment: Alignment.center,
                 height: 100,
                 width: 400,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color.fromARGB(255, 255, 255, 255),
-                      Color.fromARGB(255, 200, 200, 200),
-                      Color.fromARGB(255, 150, 150, 150),
-                    ]
+                decoration: (nbTask <= 0 && startingPointPlaced)
+                  ? BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Color.fromARGB(255, 255, 255, 255),
+                        Color.fromARGB(255, 200, 200, 200),
+                        Color.fromARGB(255, 150, 150, 150),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(30.0),
+                    border: Border.all(
+                      color: Colors.black,
+                      style: BorderStyle.solid,
+                      width: 4,
+                    ),
+                  )
+                  : BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(30.0),
+                    border: Border.all(
+                      color: Colors.black,
+                      style: BorderStyle.solid,
+                      width: 4,
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(30.0),
-                  border: Border.all(
-                    color: Colors.black,
-                    style: BorderStyle.solid,
-                    width: 4,
-                  ),
-                ),
                 child: const Text(
                   "Démarrer la partie",
                   style: TextStyle(
