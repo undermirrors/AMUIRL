@@ -47,10 +47,22 @@ class Protocol extends _i1.SerializationManagerServer {
           columnDefault: 'nextval(\'game_id_seq\'::regclass)',
         ),
         _i2.ColumnDefinition(
-          name: 'lobby',
+          name: 'name',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'players',
           columnType: _i2.ColumnType.json,
           isNullable: false,
-          dartType: 'protocol:Lobby',
+          dartType: 'List<String>',
+        ),
+        _i2.ColumnDefinition(
+          name: 'gameParameter',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'List<int>',
         ),
         _i2.ColumnDefinition(
           name: 'playersDead',
@@ -71,6 +83,12 @@ class Protocol extends _i1.SerializationManagerServer {
           dartType: 'List<List<protocol:LatitudeLongitude>>',
         ),
         _i2.ColumnDefinition(
+          name: 'totalTask',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'List<protocol:LatitudeLongitude>',
+        ),
+        _i2.ColumnDefinition(
           name: 'cooldownKillByImpostors',
           columnType: _i2.ColumnType.json,
           isNullable: false,
@@ -84,6 +102,18 @@ class Protocol extends _i1.SerializationManagerServer {
         ),
         _i2.ColumnDefinition(
           name: 'startedPointTriggered',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+        _i2.ColumnDefinition(
+          name: 'isGameEnded',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+        _i2.ColumnDefinition(
+          name: 'dangerTriggered',
           columnType: _i2.ColumnType.boolean,
           isNullable: false,
           dartType: 'bool',
@@ -348,6 +378,21 @@ class Protocol extends _i1.SerializationManagerServer {
       return (data as List)
           .map((e) => deserialize<_i8.LatitudeLongitude>(e))
           .toList() as dynamic;
+    }
+    if (t == _i1.getType<List<String>?>()) {
+      return (data != null
+          ? (data as List).map((e) => deserialize<String>(e)).toList()
+          : null) as dynamic;
+    }
+    if (t == _i1.getType<List<String>?>()) {
+      return (data != null
+          ? (data as List).map((e) => deserialize<String>(e)).toList()
+          : null) as dynamic;
+    }
+    if (t == _i1.getType<List<int>?>()) {
+      return (data != null
+          ? (data as List).map((e) => deserialize<int>(e)).toList()
+          : null) as dynamic;
     }
     if (t == List<_i9.Lobby>) {
       return (data as List).map((e) => deserialize<_i9.Lobby>(e)).toList()

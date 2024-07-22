@@ -1,10 +1,15 @@
 class: Game
 table: game
 fields:
-  lobby: Lobby
+  name: String
+  players: List<String>
+  gameParameter: List<int>
   playersDead: List<String>
   indexOfImpostors: List<int>
   taskLeftForEachPlayers: List<List<LatitudeLongitude>>
+  totalTask: List<LatitudeLongitude>
   cooldownKillByImpostors: List<int>
   startedPoint: LatitudeLongitude
   startedPointTriggered: bool
+  isGameEnded: bool
+  dangerTriggered: bool

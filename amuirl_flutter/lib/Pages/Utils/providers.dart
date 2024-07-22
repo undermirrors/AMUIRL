@@ -4,8 +4,7 @@ import 'package:amuirl_flutter/Pages/Widget/GameCreation/load_interface.dart';
 import 'package:amuirl_flutter/Pages/Widget/GameCreation/saved_interface.dart';
 import 'package:amuirl_flutter/Pages/Widget/GameCreation/task_selector.dart';
 import 'package:latlong2/latlong.dart';
-
-import 'game_map.dart';
+import 'game_creation_map.dart';
 import 'package:flutter/material.dart';
 
 //----------------------------------------------------------------//

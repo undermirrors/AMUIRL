@@ -1,5 +1,5 @@
 import 'package:amuirl_client/amuirl_client.dart';
-import 'package:amuirl_flutter/Pages/Utils/game_map.dart';
+import 'package:amuirl_flutter/Pages/Utils/game_creation_map.dart';
 import 'package:amuirl_flutter/Pages/Widget/game.dart';
 import 'package:amuirl_flutter/Pages/Widget/GameCreation/map_widget.dart';
 import 'package:amuirl_flutter/Pages/Utils/providers.dart';

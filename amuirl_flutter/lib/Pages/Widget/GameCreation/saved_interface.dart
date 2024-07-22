@@ -1,8 +1,7 @@
 import 'package:amuirl_client/amuirl_client.dart';
-import 'package:amuirl_flutter/Pages/Utils/game_map.dart';
+import 'package:amuirl_flutter/Pages/Utils/game_creation_map.dart';
 import 'package:amuirl_flutter/Pages/Utils/providers.dart';
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import '../../Utils/file_manager.dart';
 

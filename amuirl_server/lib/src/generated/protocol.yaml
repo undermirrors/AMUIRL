@@ -1,5 +1,21 @@
 example:
   - hello:
+game:
+  - createGame:
+  - deleteGame:
+  - getGame:
+  - killPlayer:
+  - isDeadPlayer:
+  - getImpostors:
+  - finishTask:
+  - triggerLobby:
+  - isTriggeredLobby:
+  - dangerActivatedOrDesactivated:
+  - isDangerLaunched:
+  - getAllPlayer:
+  - getGameParameters:
+  - getGameTotalTaskLeft:
+  - testIfGameEnded:
 lobbies:
   - deleteAllLobbies:
   - createLobby:
@@ -10,6 +26,7 @@ lobbies:
   - changeParameter:
   - getLobby:
   - lobbyExist:
+  - gameLaunch:
 users:
   - deleteAllUsers:
   - getAllUser:

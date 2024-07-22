@@ -10,10 +10,13 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/example_endpoint.dart' as _i2;
-import '../endpoints/lobbies_endpoint.dart' as _i3;
-import '../endpoints/users_endpoint.dart' as _i4;
-import 'package:amuirl_server/src/generated/lobbies.dart' as _i5;
-import 'package:amuirl_server/src/generated/users.dart' as _i6;
+import '../endpoints/game_endpoint.dart' as _i3;
+import '../endpoints/lobbies_endpoint.dart' as _i4;
+import '../endpoints/users_endpoint.dart' as _i5;
+import 'package:amuirl_server/src/generated/game.dart' as _i6;
+import 'package:amuirl_server/src/generated/latitudelongitude.dart' as _i7;
+import 'package:amuirl_server/src/generated/lobbies.dart' as _i8;
+import 'package:amuirl_server/src/generated/users.dart' as _i9;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -25,13 +28,19 @@ class Endpoints extends _i1.EndpointDispatch {
           'example',
           null,
         ),
-      'lobbies': _i3.LobbiesEndpoint()
+      'game': _i3.GameEndpoint()
+        ..initialize(
+          server,
+          'game',
+          null,
+        ),
+      'lobbies': _i4.LobbiesEndpoint()
         ..initialize(
           server,
           'lobbies',
           null,
         ),
-      'users': _i4.UsersEndpoint()
+      'users': _i5.UsersEndpoint()
         ..initialize(
           server,
           'users',
@@ -62,6 +71,313 @@ class Endpoints extends _i1.EndpointDispatch {
         )
       },
     );
+    connectors['game'] = _i1.EndpointConnector(
+      name: 'game',
+      endpoint: endpoints['game']!,
+      methodConnectors: {
+        'createGame': _i1.MethodConnector(
+          name: 'createGame',
+          params: {
+            'game': _i1.ParameterDescription(
+              name: 'game',
+              type: _i1.getType<_i6.Game>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).createGame(
+            session,
+            params['game'],
+          ),
+        ),
+        'deleteGame': _i1.MethodConnector(
+          name: 'deleteGame',
+          params: {
+            'game': _i1.ParameterDescription(
+              name: 'game',
+              type: _i1.getType<_i6.Game>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).deleteGame(
+            session,
+            params['game'],
+          ),
+        ),
+        'getGame': _i1.MethodConnector(
+          name: 'getGame',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).getGame(
+            session,
+            params['nameGame'],
+          ),
+        ),
+        'killPlayer': _i1.MethodConnector(
+          name: 'killPlayer',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'playerName': _i1.ParameterDescription(
+              name: 'playerName',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).killPlayer(
+            session,
+            params['nameGame'],
+            params['playerName'],
+          ),
+        ),
+        'isDeadPlayer': _i1.MethodConnector(
+          name: 'isDeadPlayer',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'playerName': _i1.ParameterDescription(
+              name: 'playerName',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).isDeadPlayer(
+            session,
+            params['nameGame'],
+            params['playerName'],
+          ),
+        ),
+        'getImpostors': _i1.MethodConnector(
+          name: 'getImpostors',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).getImpostors(
+            session,
+            params['nameGame'],
+          ),
+        ),
+        'finishTask': _i1.MethodConnector(
+          name: 'finishTask',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'playerName': _i1.ParameterDescription(
+              name: 'playerName',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'task': _i1.ParameterDescription(
+              name: 'task',
+              type: _i1.getType<_i7.LatitudeLongitude>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).finishTask(
+            session,
+            params['nameGame'],
+            params['playerName'],
+            params['task'],
+          ),
+        ),
+        'triggerLobby': _i1.MethodConnector(
+          name: 'triggerLobby',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).triggerLobby(
+            session,
+            params['nameGame'],
+          ),
+        ),
+        'isTriggeredLobby': _i1.MethodConnector(
+          name: 'isTriggeredLobby',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).isTriggeredLobby(
+            session,
+            params['nameGame'],
+          ),
+        ),
+        'dangerActivatedOrDesactivated': _i1.MethodConnector(
+          name: 'dangerActivatedOrDesactivated',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'changementStatus': _i1.ParameterDescription(
+              name: 'changementStatus',
+              type: _i1.getType<bool>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint)
+                  .dangerActivatedOrDesactivated(
+            session,
+            params['nameGame'],
+            params['changementStatus'],
+          ),
+        ),
+        'isDangerLaunched': _i1.MethodConnector(
+          name: 'isDangerLaunched',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).isDangerLaunched(
+            session,
+            params['nameGame'],
+          ),
+        ),
+        'getAllPlayer': _i1.MethodConnector(
+          name: 'getAllPlayer',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).getAllPlayer(
+            session,
+            params['nameGame'],
+          ),
+        ),
+        'getGameParameters': _i1.MethodConnector(
+          name: 'getGameParameters',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).getGameParameters(
+            session,
+            params['nameGame'],
+          ),
+        ),
+        'getGameTotalTaskLeft': _i1.MethodConnector(
+          name: 'getGameTotalTaskLeft',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).getGameTotalTaskLeft(
+            session,
+            params['nameGame'],
+          ),
+        ),
+        'testIfGameEnded': _i1.MethodConnector(
+          name: 'testIfGameEnded',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).testIfGameEnded(
+            session,
+            params['nameGame'],
+          ),
+        ),
+      },
+    );
     connectors['lobbies'] = _i1.EndpointConnector(
       name: 'lobbies',
       endpoint: endpoints['lobbies']!,
@@ -73,7 +389,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['lobbies'] as _i3.LobbiesEndpoint)
+              (endpoints['lobbies'] as _i4.LobbiesEndpoint)
                   .deleteAllLobbies(session),
         ),
         'createLobby': _i1.MethodConnector(
@@ -81,7 +397,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'lobby': _i1.ParameterDescription(
               name: 'lobby',
-              type: _i1.getType<_i5.Lobby>(),
+              type: _i1.getType<_i8.Lobby>(),
               nullable: false,
             )
           },
@@ -89,7 +405,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['lobbies'] as _i3.LobbiesEndpoint).createLobby(
+              (endpoints['lobbies'] as _i4.LobbiesEndpoint).createLobby(
             session,
             params['lobby'],
           ),
@@ -99,7 +415,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'lobby': _i1.ParameterDescription(
               name: 'lobby',
-              type: _i1.getType<_i5.Lobby>(),
+              type: _i1.getType<_i8.Lobby>(),
               nullable: false,
             )
           },
@@ -107,7 +423,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['lobbies'] as _i3.LobbiesEndpoint).deleteLobby(
+              (endpoints['lobbies'] as _i4.LobbiesEndpoint).deleteLobby(
             session,
             params['lobby'],
           ),
@@ -122,7 +438,7 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'user': _i1.ParameterDescription(
               name: 'user',
-              type: _i1.getType<_i6.User>(),
+              type: _i1.getType<_i9.User>(),
               nullable: false,
             ),
           },
@@ -130,7 +446,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['lobbies'] as _i3.LobbiesEndpoint).addPlayer(
+              (endpoints['lobbies'] as _i4.LobbiesEndpoint).addPlayer(
             session,
             params['idLobby'],
             params['user'],
@@ -146,7 +462,7 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'user': _i1.ParameterDescription(
               name: 'user',
-              type: _i1.getType<_i6.User>(),
+              type: _i1.getType<_i9.User>(),
               nullable: false,
             ),
           },
@@ -154,7 +470,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['lobbies'] as _i3.LobbiesEndpoint).suppressPlayer(
+              (endpoints['lobbies'] as _i4.LobbiesEndpoint).suppressPlayer(
             session,
             params['idLobby'],
             params['user'],
@@ -173,7 +489,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['lobbies'] as _i3.LobbiesEndpoint).getAllLobby(
+              (endpoints['lobbies'] as _i4.LobbiesEndpoint).getAllLobby(
             session,
             keyword: params['keyword'],
           ),
@@ -183,7 +499,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'lobby': _i1.ParameterDescription(
               name: 'lobby',
-              type: _i1.getType<_i5.Lobby>(),
+              type: _i1.getType<_i8.Lobby>(),
               nullable: false,
             ),
             'parameters': _i1.ParameterDescription(
@@ -196,7 +512,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['lobbies'] as _i3.LobbiesEndpoint).changeParameter(
+              (endpoints['lobbies'] as _i4.LobbiesEndpoint).changeParameter(
             session,
             params['lobby'],
             params['parameters'],
@@ -215,7 +531,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['lobbies'] as _i3.LobbiesEndpoint).getLobby(
+              (endpoints['lobbies'] as _i4.LobbiesEndpoint).getLobby(
             session,
             params['idLobby'],
           ),
@@ -225,7 +541,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'lobbyName': _i1.ParameterDescription(
               name: 'lobbyName',
-              type: _i1.getType<_i5.Lobby>(),
+              type: _i1.getType<_i8.Lobby>(),
               nullable: false,
             )
           },
@@ -233,9 +549,27 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['lobbies'] as _i3.LobbiesEndpoint).lobbyExist(
+              (endpoints['lobbies'] as _i4.LobbiesEndpoint).lobbyExist(
             session,
             params['lobbyName'],
+          ),
+        ),
+        'gameLaunch': _i1.MethodConnector(
+          name: 'gameLaunch',
+          params: {
+            'idLobby': _i1.ParameterDescription(
+              name: 'idLobby',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['lobbies'] as _i4.LobbiesEndpoint).gameLaunch(
+            session,
+            params['idLobby'],
           ),
         ),
       },
@@ -251,7 +585,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i4.UsersEndpoint).deleteAllUsers(session),
+              (endpoints['users'] as _i5.UsersEndpoint).deleteAllUsers(session),
         ),
         'getAllUser': _i1.MethodConnector(
           name: 'getAllUser',
@@ -260,14 +594,14 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i4.UsersEndpoint).getAllUser(session),
+              (endpoints['users'] as _i5.UsersEndpoint).getAllUser(session),
         ),
         'createUser': _i1.MethodConnector(
           name: 'createUser',
           params: {
             'user': _i1.ParameterDescription(
               name: 'user',
-              type: _i1.getType<_i6.User>(),
+              type: _i1.getType<_i9.User>(),
               nullable: false,
             )
           },
@@ -275,7 +609,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i4.UsersEndpoint).createUser(
+              (endpoints['users'] as _i5.UsersEndpoint).createUser(
             session,
             params['user'],
           ),
@@ -285,7 +619,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'user': _i1.ParameterDescription(
               name: 'user',
-              type: _i1.getType<_i6.User>(),
+              type: _i1.getType<_i9.User>(),
               nullable: false,
             )
           },
@@ -293,7 +627,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i4.UsersEndpoint).deleteUser(
+              (endpoints['users'] as _i5.UsersEndpoint).deleteUser(
             session,
             params['user'],
           ),
@@ -311,7 +645,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i4.UsersEndpoint).getUser(
+              (endpoints['users'] as _i5.UsersEndpoint).getUser(
             session,
             params['username'],
           ),
@@ -321,7 +655,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'user': _i1.ParameterDescription(
               name: 'user',
-              type: _i1.getType<_i6.User>(),
+              type: _i1.getType<_i9.User>(),
               nullable: false,
             ),
             'newName': _i1.ParameterDescription(
@@ -334,7 +668,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i4.UsersEndpoint).changeNameUser(
+              (endpoints['users'] as _i5.UsersEndpoint).changeNameUser(
             session,
             params['user'],
             params['newName'],
@@ -353,7 +687,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i4.UsersEndpoint).isExistingUser(
+              (endpoints['users'] as _i5.UsersEndpoint).isExistingUser(
             session,
             params['username'],
           ),
@@ -381,7 +715,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i4.UsersEndpoint).changeMdp(
+              (endpoints['users'] as _i5.UsersEndpoint).changeMdp(
             session,
             params['username'],
             params['previousMdp'],
@@ -406,7 +740,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i4.UsersEndpoint).enterIntoLobby(
+              (endpoints['users'] as _i5.UsersEndpoint).enterIntoLobby(
             session,
             params['username'],
             params['idLobby'],
@@ -425,7 +759,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i4.UsersEndpoint).exitLobby(
+              (endpoints['users'] as _i5.UsersEndpoint).exitLobby(
             session,
             params['username'],
           ),

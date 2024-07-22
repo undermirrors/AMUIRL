@@ -102,4 +102,12 @@ class LobbiesEndpoint extends Endpoint {
     }
     return true;
   }
+
+  Future<void> gameLaunch(Session session, int idLobby) async {
+    var lobby = await getLobby(session, idLobby);
+    if (lobby != null) {
+      lobby.gameLaunched = true;
+      await Lobby.db.updateRow(session, lobby);
+    }
+  }
 }
