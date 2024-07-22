@@ -261,6 +261,54 @@ class Endpoints extends _i1.EndpointDispatch {
             params['nameGame'],
           ),
         ),
+        'getPlayersPosition': _i1.MethodConnector(
+          name: 'getPlayersPosition',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).getPlayersPosition(
+            session,
+            params['nameGame'],
+          ),
+        ),
+        'updatePlayerPosition': _i1.MethodConnector(
+          name: 'updatePlayerPosition',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'playerName': _i1.ParameterDescription(
+              name: 'playerName',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'newPos': _i1.ParameterDescription(
+              name: 'newPos',
+              type: _i1.getType<_i7.LatitudeLongitude>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).updatePlayerPosition(
+            session,
+            params['nameGame'],
+            params['playerName'],
+            params['newPos'],
+          ),
+        ),
         'dangerActivatedOrDesactivated': _i1.MethodConnector(
           name: 'dangerActivatedOrDesactivated',
           params: {
@@ -318,24 +366,6 @@ class Endpoints extends _i1.EndpointDispatch {
             Map<String, dynamic> params,
           ) async =>
               (endpoints['game'] as _i3.GameEndpoint).getAllPlayer(
-            session,
-            params['nameGame'],
-          ),
-        ),
-        'getGameParameters': _i1.MethodConnector(
-          name: 'getGameParameters',
-          params: {
-            'nameGame': _i1.ParameterDescription(
-              name: 'nameGame',
-              type: _i1.getType<String>(),
-              nullable: false,
-            )
-          },
-          call: (
-            _i1.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['game'] as _i3.GameEndpoint).getGameParameters(
             session,
             params['nameGame'],
           ),

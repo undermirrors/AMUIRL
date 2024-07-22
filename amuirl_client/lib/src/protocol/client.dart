@@ -118,6 +118,29 @@ class EndpointGame extends _i1.EndpointRef {
         {'nameGame': nameGame},
       );
 
+  _i2.Future<List<_i4.LatitudeLongitude?>?> getPlayersPosition(
+          String nameGame) =>
+      caller.callServerEndpoint<List<_i4.LatitudeLongitude?>?>(
+        'game',
+        'getPlayersPosition',
+        {'nameGame': nameGame},
+      );
+
+  _i2.Future<void> updatePlayerPosition(
+    String nameGame,
+    String playerName,
+    _i4.LatitudeLongitude newPos,
+  ) =>
+      caller.callServerEndpoint<void>(
+        'game',
+        'updatePlayerPosition',
+        {
+          'nameGame': nameGame,
+          'playerName': playerName,
+          'newPos': newPos,
+        },
+      );
+
   _i2.Future<void> dangerActivatedOrDesactivated(
     String nameGame,
     bool changementStatus,
@@ -142,13 +165,6 @@ class EndpointGame extends _i1.EndpointRef {
       caller.callServerEndpoint<List<String>?>(
         'game',
         'getAllPlayer',
-        {'nameGame': nameGame},
-      );
-
-  _i2.Future<List<int>?> getGameParameters(String nameGame) =>
-      caller.callServerEndpoint<List<int>?>(
-        'game',
-        'getGameParameters',
         {'nameGame': nameGame},
       );
 

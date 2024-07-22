@@ -10,10 +10,11 @@ game:
   - finishTask:
   - triggerLobby:
   - isTriggeredLobby:
+  - getPlayersPosition:
+  - updatePlayerPosition:
   - dangerActivatedOrDesactivated:
   - isDangerLaunched:
   - getAllPlayer:
-  - getGameParameters:
   - getGameTotalTaskLeft:
   - testIfGameEnded:
 lobbies:

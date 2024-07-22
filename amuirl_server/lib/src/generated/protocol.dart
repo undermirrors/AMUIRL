@@ -11,15 +11,14 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
-import 'example.dart' as _i3;
-import 'game.dart' as _i4;
-import 'latitudelongitude.dart' as _i5;
-import 'lobbies.dart' as _i6;
-import 'users.dart' as _i7;
-import 'protocol.dart' as _i8;
+import 'game.dart' as _i3;
+import 'latitudelongitude.dart' as _i4;
+import 'lobbies.dart' as _i5;
+import 'users.dart' as _i6;
+import 'protocol.dart' as _i7;
+import 'package:amuirl_server/src/generated/latitudelongitude.dart' as _i8;
 import 'package:amuirl_server/src/generated/lobbies.dart' as _i9;
 import 'package:amuirl_server/src/generated/users.dart' as _i10;
-export 'example.dart';
 export 'game.dart';
 export 'latitudelongitude.dart';
 export 'lobbies.dart';
@@ -53,16 +52,40 @@ class Protocol extends _i1.SerializationManagerServer {
           dartType: 'String',
         ),
         _i2.ColumnDefinition(
+          name: 'playersPosition',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'List<protocol:LatitudeLongitude?>',
+        ),
+        _i2.ColumnDefinition(
           name: 'players',
           columnType: _i2.ColumnType.json,
           isNullable: false,
           dartType: 'List<String>',
         ),
         _i2.ColumnDefinition(
-          name: 'gameParameter',
-          columnType: _i2.ColumnType.json,
+          name: 'timeBetweenImpostorKill',
+          columnType: _i2.ColumnType.bigint,
           isNullable: false,
-          dartType: 'List<int>',
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'killDistance',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'nbUrgencyCall',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'timeDiscutionVote',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
         ),
         _i2.ColumnDefinition(
           name: 'playersDead',
@@ -74,7 +97,7 @@ class Protocol extends _i1.SerializationManagerServer {
           name: 'indexOfImpostors',
           columnType: _i2.ColumnType.json,
           isNullable: false,
-          dartType: 'List<int>',
+          dartType: 'List<String>',
         ),
         _i2.ColumnDefinition(
           name: 'taskLeftForEachPlayers',
@@ -332,66 +355,67 @@ class Protocol extends _i1.SerializationManagerServer {
     Type? t,
   ]) {
     t ??= T;
-    if (t == _i3.Example) {
-      return _i3.Example.fromJson(data) as T;
+    if (t == _i3.Game) {
+      return _i3.Game.fromJson(data) as T;
     }
-    if (t == _i4.Game) {
-      return _i4.Game.fromJson(data) as T;
+    if (t == _i4.LatitudeLongitude) {
+      return _i4.LatitudeLongitude.fromJson(data) as T;
     }
-    if (t == _i5.LatitudeLongitude) {
-      return _i5.LatitudeLongitude.fromJson(data) as T;
+    if (t == _i5.Lobby) {
+      return _i5.Lobby.fromJson(data) as T;
     }
-    if (t == _i6.Lobby) {
-      return _i6.Lobby.fromJson(data) as T;
+    if (t == _i6.User) {
+      return _i6.User.fromJson(data) as T;
     }
-    if (t == _i7.User) {
-      return _i7.User.fromJson(data) as T;
+    if (t == _i1.getType<_i3.Game?>()) {
+      return (data != null ? _i3.Game.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i3.Example?>()) {
-      return (data != null ? _i3.Example.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i4.LatitudeLongitude?>()) {
+      return (data != null ? _i4.LatitudeLongitude.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i4.Game?>()) {
-      return (data != null ? _i4.Game.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i5.Lobby?>()) {
+      return (data != null ? _i5.Lobby.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i5.LatitudeLongitude?>()) {
-      return (data != null ? _i5.LatitudeLongitude.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i6.User?>()) {
+      return (data != null ? _i6.User.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i6.Lobby?>()) {
-      return (data != null ? _i6.Lobby.fromJson(data) : null) as T;
-    }
-    if (t == _i1.getType<_i7.User?>()) {
-      return (data != null ? _i7.User.fromJson(data) : null) as T;
+    if (t == List<_i7.LatitudeLongitude?>) {
+      return (data as List)
+          .map((e) => deserialize<_i7.LatitudeLongitude?>(e))
+          .toList() as dynamic;
     }
     if (t == List<String>) {
       return (data as List).map((e) => deserialize<String>(e)).toList()
           as dynamic;
     }
+    if (t == List<List<_i7.LatitudeLongitude>>) {
+      return (data as List)
+          .map((e) => deserialize<List<_i7.LatitudeLongitude>>(e))
+          .toList() as dynamic;
+    }
+    if (t == List<_i7.LatitudeLongitude>) {
+      return (data as List)
+          .map((e) => deserialize<_i7.LatitudeLongitude>(e))
+          .toList() as dynamic;
+    }
     if (t == List<int>) {
       return (data as List).map((e) => deserialize<int>(e)).toList() as dynamic;
     }
-    if (t == List<List<_i8.LatitudeLongitude>>) {
-      return (data as List)
-          .map((e) => deserialize<List<_i8.LatitudeLongitude>>(e))
-          .toList() as dynamic;
-    }
-    if (t == List<_i8.LatitudeLongitude>) {
-      return (data as List)
-          .map((e) => deserialize<_i8.LatitudeLongitude>(e))
-          .toList() as dynamic;
-    }
     if (t == _i1.getType<List<String>?>()) {
       return (data != null
           ? (data as List).map((e) => deserialize<String>(e)).toList()
           : null) as dynamic;
     }
+    if (t == _i1.getType<List<_i8.LatitudeLongitude?>?>()) {
+      return (data != null
+          ? (data as List)
+              .map((e) => deserialize<_i8.LatitudeLongitude?>(e))
+              .toList()
+          : null) as dynamic;
+    }
     if (t == _i1.getType<List<String>?>()) {
       return (data != null
           ? (data as List).map((e) => deserialize<String>(e)).toList()
-          : null) as dynamic;
-    }
-    if (t == _i1.getType<List<int>?>()) {
-      return (data != null
-          ? (data as List).map((e) => deserialize<int>(e)).toList()
           : null) as dynamic;
     }
     if (t == List<_i9.Lobby>) {
@@ -413,19 +437,16 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   String? getClassNameForObject(Object data) {
-    if (data is _i3.Example) {
-      return 'Example';
-    }
-    if (data is _i4.Game) {
+    if (data is _i3.Game) {
       return 'Game';
     }
-    if (data is _i5.LatitudeLongitude) {
+    if (data is _i4.LatitudeLongitude) {
       return 'LatitudeLongitude';
     }
-    if (data is _i6.Lobby) {
+    if (data is _i5.Lobby) {
       return 'Lobby';
     }
-    if (data is _i7.User) {
+    if (data is _i6.User) {
       return 'User';
     }
     return super.getClassNameForObject(data);
@@ -433,20 +454,17 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   dynamic deserializeByClassName(Map<String, dynamic> data) {
-    if (data['className'] == 'Example') {
-      return deserialize<_i3.Example>(data['data']);
-    }
     if (data['className'] == 'Game') {
-      return deserialize<_i4.Game>(data['data']);
+      return deserialize<_i3.Game>(data['data']);
     }
     if (data['className'] == 'LatitudeLongitude') {
-      return deserialize<_i5.LatitudeLongitude>(data['data']);
+      return deserialize<_i4.LatitudeLongitude>(data['data']);
     }
     if (data['className'] == 'Lobby') {
-      return deserialize<_i6.Lobby>(data['data']);
+      return deserialize<_i5.Lobby>(data['data']);
     }
     if (data['className'] == 'User') {
-      return deserialize<_i7.User>(data['data']);
+      return deserialize<_i6.User>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -460,14 +478,14 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
     switch (t) {
-      case _i4.Game:
-        return _i4.Game.t;
-      case _i5.LatitudeLongitude:
-        return _i5.LatitudeLongitude.t;
-      case _i6.Lobby:
-        return _i6.Lobby.t;
-      case _i7.User:
-        return _i7.User.t;
+      case _i3.Game:
+        return _i3.Game.t;
+      case _i4.LatitudeLongitude:
+        return _i4.LatitudeLongitude.t;
+      case _i5.Lobby:
+        return _i5.Lobby.t;
+      case _i6.User:
+        return _i6.User.t;
     }
     return null;
   }

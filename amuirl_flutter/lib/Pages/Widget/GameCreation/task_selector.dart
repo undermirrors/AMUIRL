@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:amuirl_flutter/Pages/Utils/game_creation_map.dart';
 import 'package:amuirl_flutter/Pages/Widget/game.dart';
@@ -283,14 +285,81 @@ class _TaskSelectorState extends State<TaskSelector> {
             ),
 
             GestureDetector(
-              onTap: () {
-                print(nbTask);
+              onTap: () async {
                 if (context.read<MapProvider>().map.lobbyMarkerPos != null && nbTask == 0) {
+                  int totalNbPlayer = widget.currentLobby.players.length;
+                  LatLng startedPoint = context.read<MapProvider>().map.lobbyMarkerPos!; // if you enter this if condition, lobbyMarkerPos is not null
+                  List<LatitudeLongitude> totalTask = <LatitudeLongitude>[];
+                  List<LatitudeLongitude?> playersPosition = [];
+                  List<int> impostorCooldown = [];
+                  int nbImposteur = widget.currentLobby.gameParameter[0];
+                  List<String> indexOfImpostors = <String>[];
+                  int nbTaskPerPlayer = widget.currentLobby.gameParameter[5];
+                  List<List<LatitudeLongitude>> taskAttributions = [];
+
+                  for (int i = 0; i < context.read<MapProvider>().map.taskMarkerCoord.length; i++) {
+                    LatLng value = context.read<MapProvider>().map.taskMarkerCoord[i];
+                    totalTask.add(
+                        LatitudeLongitude(
+                            latitude: value.latitude,
+                            longitude: value.longitude
+                        )
+                    );
+                  }
+
+                  for (int i = 0; i < nbImposteur; i++) {
+                    impostorCooldown.add(30); // We initialise the arrays to be able to acces it via PlayersPosition[i]
+                  }
+
+                  while (nbImposteur > 0) {
+                    int indexFutureImpostor = Random().nextInt(totalNbPlayer);
+                    if (!indexOfImpostors.contains(widget.currentLobby.players[indexFutureImpostor])) {
+                      indexOfImpostors.add(widget.currentLobby.players[indexFutureImpostor]);
+                      nbImposteur--;
+                    }
+                  }
+
+
+
+                  for (int i = 0; i < totalNbPlayer; i++) {
+                    playersPosition.add(null); // We initialise the arrays to be able to acces it via PlayersPosition[i]
+
+                    List<LatitudeLongitude> potentialTask = totalTask.clone();
+                    while (potentialTask.length > nbTaskPerPlayer) { // potentialTask is set with all the task available in this map, so when boucle ended potentialTask have the rigth number of task
+                      int indexTask = Random().nextInt(potentialTask.length);
+                      potentialTask.removeAt(indexTask);
+                    }
+
+
+                    //We can now add potentialTask to the true database of task for players
+                    taskAttributions.add(potentialTask);
+                  }
+                  await client.game.createGame(
+                    Game(
+                        name: widget.currentLobby.name,
+                        playersPosition: playersPosition,
+                        players: widget.currentLobby.players,
+                        timeBetweenImpostorKill: widget.currentLobby.gameParameter[1],
+                        killDistance: widget.currentLobby.gameParameter[2],
+                        nbUrgencyCall: widget.currentLobby.gameParameter[3],
+                        timeDiscutionVote: widget.currentLobby.gameParameter[4],
+                        playersDead: <String>[],
+                        indexOfImpostors: indexOfImpostors,
+                        taskLeftForEachPlayers: taskAttributions,
+                        totalTask: totalTask,
+                        cooldownKillByImpostors: impostorCooldown,
+                        startedPoint: LatitudeLongitude(latitude: startedPoint.latitude, longitude: startedPoint.longitude),
+                        startedPointTriggered: false,
+                        isGameEnded: false,
+                        dangerTriggered: false,
+                    )
+                  );
+
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) =>
-                      GameInterface(currentLobby: widget.currentLobby,)));
+                      GameInterface(isCreator: true, currentGame: widget.currentLobby.name,)));
                 } else {
-                  print("You can't start the game without have all the task");
+                  print("You can't start the game without have all the task and the lobby placed");
                 }
               },
               child: Container(

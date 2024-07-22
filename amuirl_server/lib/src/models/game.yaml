@@ -2,10 +2,14 @@ class: Game
 table: game
 fields:
   name: String
+  playersPosition: List<LatitudeLongitude?>
   players: List<String>
-  gameParameter: List<int>
+  timeBetweenImpostorKill: int
+  killDistance: int
+  nbUrgencyCall: int
+  timeDiscutionVote: int
   playersDead: List<String>
-  indexOfImpostors: List<int>
+  indexOfImpostors: List<String>
   taskLeftForEachPlayers: List<List<LatitudeLongitude>>
   totalTask: List<LatitudeLongitude>
   cooldownKillByImpostors: List<int>

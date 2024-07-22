@@ -23,10 +23,9 @@ class GameEndpoint extends Endpoint {
     if (game != null) {
       if (game.players.contains(playerName)) {
         bool res = false;
-        int index = game.players.indexOf(playerName);
         game.playersDead.add(playerName);
-        if (game.indexOfImpostors.contains(index)) {
-          res = game.indexOfImpostors.remove(index);
+        if (game.indexOfImpostors.contains(playerName)) {
+          res = game.indexOfImpostors.remove(playerName);
         }
         await Game.db.updateRow(session, game);
         return res;
@@ -46,11 +45,7 @@ class GameEndpoint extends Endpoint {
   Future<List<String>?> getImpostors(Session session, String nameGame) async {
     Game? game = await getGame(session, nameGame);
     if (game != null) {
-      List<String> result = <String>[];
-      for (int i = 0; i < game.indexOfImpostors.length; i++) {
-        result.add(game.players[game.indexOfImpostors[i]]);
-      }
-      return result;
+      return game.indexOfImpostors;
     }
 
     return null;
@@ -91,6 +86,25 @@ class GameEndpoint extends Endpoint {
     return null;
   }
 
+  Future<List<LatitudeLongitude?>?> getPlayersPosition(Session session, String nameGame) async {
+    Game? game = await getGame(session, nameGame);
+    if (game != null) {
+      return game.playersPosition;
+    }
+    return null;
+  }
+
+  Future<void> updatePlayerPosition(Session session, String nameGame, String playerName, LatitudeLongitude newPos) async {
+    Game? game = await getGame(session, nameGame);
+    if (game != null) {
+      int index = game.players.indexOf(playerName);
+      if (index != -1) {
+        game.playersPosition[index] = newPos;
+        await Game.db.updateRow(session, game);
+      }
+    }
+  }
+
   Future<void> dangerActivatedOrDesactivated(Session session, String nameGame, bool changementStatus) async {
     Game? game = await getGame(session, nameGame);
     if (game != null) {
@@ -112,15 +126,6 @@ class GameEndpoint extends Endpoint {
     if (game != null) {
       return game.players;
     }
-    return null;
-  }
-
-  Future<List<int>?> getGameParameters(Session session, String nameGame) async {
-    Game? game = await getGame(session, nameGame);
-    if (game != null) {
-      return game.gameParameter;
-    }
-
     return null;
   }
 
@@ -155,4 +160,7 @@ class GameEndpoint extends Endpoint {
       }
     }
   }
+
+
+  // Todo : make a function for send alert
 }

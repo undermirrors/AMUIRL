@@ -15,8 +15,12 @@ abstract class Game implements _i1.SerializableModel {
   Game._({
     this.id,
     required this.name,
+    required this.playersPosition,
     required this.players,
-    required this.gameParameter,
+    required this.timeBetweenImpostorKill,
+    required this.killDistance,
+    required this.nbUrgencyCall,
+    required this.timeDiscutionVote,
     required this.playersDead,
     required this.indexOfImpostors,
     required this.taskLeftForEachPlayers,
@@ -31,10 +35,14 @@ abstract class Game implements _i1.SerializableModel {
   factory Game({
     int? id,
     required String name,
+    required List<_i2.LatitudeLongitude?> playersPosition,
     required List<String> players,
-    required List<int> gameParameter,
+    required int timeBetweenImpostorKill,
+    required int killDistance,
+    required int nbUrgencyCall,
+    required int timeDiscutionVote,
     required List<String> playersDead,
-    required List<int> indexOfImpostors,
+    required List<String> indexOfImpostors,
     required List<List<_i2.LatitudeLongitude>> taskLeftForEachPlayers,
     required List<_i2.LatitudeLongitude> totalTask,
     required List<int> cooldownKillByImpostors,
@@ -48,17 +56,24 @@ abstract class Game implements _i1.SerializableModel {
     return Game(
       id: jsonSerialization['id'] as int?,
       name: jsonSerialization['name'] as String,
+      playersPosition: (jsonSerialization['playersPosition'] as List)
+          .map((e) => e == null
+              ? null
+              : _i2.LatitudeLongitude.fromJson((e as Map<String, dynamic>)))
+          .toList(),
       players: (jsonSerialization['players'] as List)
           .map((e) => e as String)
           .toList(),
-      gameParameter: (jsonSerialization['gameParameter'] as List)
-          .map((e) => e as int)
-          .toList(),
+      timeBetweenImpostorKill:
+          jsonSerialization['timeBetweenImpostorKill'] as int,
+      killDistance: jsonSerialization['killDistance'] as int,
+      nbUrgencyCall: jsonSerialization['nbUrgencyCall'] as int,
+      timeDiscutionVote: jsonSerialization['timeDiscutionVote'] as int,
       playersDead: (jsonSerialization['playersDead'] as List)
           .map((e) => e as String)
           .toList(),
       indexOfImpostors: (jsonSerialization['indexOfImpostors'] as List)
-          .map((e) => e as int)
+          .map((e) => e as String)
           .toList(),
       taskLeftForEachPlayers: (jsonSerialization['taskLeftForEachPlayers']
               as List)
@@ -90,13 +105,21 @@ abstract class Game implements _i1.SerializableModel {
 
   String name;
 
+  List<_i2.LatitudeLongitude?> playersPosition;
+
   List<String> players;
 
-  List<int> gameParameter;
+  int timeBetweenImpostorKill;
+
+  int killDistance;
+
+  int nbUrgencyCall;
+
+  int timeDiscutionVote;
 
   List<String> playersDead;
 
-  List<int> indexOfImpostors;
+  List<String> indexOfImpostors;
 
   List<List<_i2.LatitudeLongitude>> taskLeftForEachPlayers;
 
@@ -115,10 +138,14 @@ abstract class Game implements _i1.SerializableModel {
   Game copyWith({
     int? id,
     String? name,
+    List<_i2.LatitudeLongitude?>? playersPosition,
     List<String>? players,
-    List<int>? gameParameter,
+    int? timeBetweenImpostorKill,
+    int? killDistance,
+    int? nbUrgencyCall,
+    int? timeDiscutionVote,
     List<String>? playersDead,
-    List<int>? indexOfImpostors,
+    List<String>? indexOfImpostors,
     List<List<_i2.LatitudeLongitude>>? taskLeftForEachPlayers,
     List<_i2.LatitudeLongitude>? totalTask,
     List<int>? cooldownKillByImpostors,
@@ -132,8 +159,13 @@ abstract class Game implements _i1.SerializableModel {
     return {
       if (id != null) 'id': id,
       'name': name,
+      'playersPosition':
+          playersPosition.toJson(valueToJson: (v) => v?.toJson()),
       'players': players.toJson(),
-      'gameParameter': gameParameter.toJson(),
+      'timeBetweenImpostorKill': timeBetweenImpostorKill,
+      'killDistance': killDistance,
+      'nbUrgencyCall': nbUrgencyCall,
+      'timeDiscutionVote': timeDiscutionVote,
       'playersDead': playersDead.toJson(),
       'indexOfImpostors': indexOfImpostors.toJson(),
       'taskLeftForEachPlayers': taskLeftForEachPlayers.toJson(
@@ -159,10 +191,14 @@ class _GameImpl extends Game {
   _GameImpl({
     int? id,
     required String name,
+    required List<_i2.LatitudeLongitude?> playersPosition,
     required List<String> players,
-    required List<int> gameParameter,
+    required int timeBetweenImpostorKill,
+    required int killDistance,
+    required int nbUrgencyCall,
+    required int timeDiscutionVote,
     required List<String> playersDead,
-    required List<int> indexOfImpostors,
+    required List<String> indexOfImpostors,
     required List<List<_i2.LatitudeLongitude>> taskLeftForEachPlayers,
     required List<_i2.LatitudeLongitude> totalTask,
     required List<int> cooldownKillByImpostors,
@@ -173,8 +209,12 @@ class _GameImpl extends Game {
   }) : super._(
           id: id,
           name: name,
+          playersPosition: playersPosition,
           players: players,
-          gameParameter: gameParameter,
+          timeBetweenImpostorKill: timeBetweenImpostorKill,
+          killDistance: killDistance,
+          nbUrgencyCall: nbUrgencyCall,
+          timeDiscutionVote: timeDiscutionVote,
           playersDead: playersDead,
           indexOfImpostors: indexOfImpostors,
           taskLeftForEachPlayers: taskLeftForEachPlayers,
@@ -190,10 +230,14 @@ class _GameImpl extends Game {
   Game copyWith({
     Object? id = _Undefined,
     String? name,
+    List<_i2.LatitudeLongitude?>? playersPosition,
     List<String>? players,
-    List<int>? gameParameter,
+    int? timeBetweenImpostorKill,
+    int? killDistance,
+    int? nbUrgencyCall,
+    int? timeDiscutionVote,
     List<String>? playersDead,
-    List<int>? indexOfImpostors,
+    List<String>? indexOfImpostors,
     List<List<_i2.LatitudeLongitude>>? taskLeftForEachPlayers,
     List<_i2.LatitudeLongitude>? totalTask,
     List<int>? cooldownKillByImpostors,
@@ -205,8 +249,13 @@ class _GameImpl extends Game {
     return Game(
       id: id is int? ? id : this.id,
       name: name ?? this.name,
+      playersPosition: playersPosition ?? this.playersPosition.clone(),
       players: players ?? this.players.clone(),
-      gameParameter: gameParameter ?? this.gameParameter.clone(),
+      timeBetweenImpostorKill:
+          timeBetweenImpostorKill ?? this.timeBetweenImpostorKill,
+      killDistance: killDistance ?? this.killDistance,
+      nbUrgencyCall: nbUrgencyCall ?? this.nbUrgencyCall,
+      timeDiscutionVote: timeDiscutionVote ?? this.timeDiscutionVote,
       playersDead: playersDead ?? this.playersDead.clone(),
       indexOfImpostors: indexOfImpostors ?? this.indexOfImpostors.clone(),
       taskLeftForEachPlayers:

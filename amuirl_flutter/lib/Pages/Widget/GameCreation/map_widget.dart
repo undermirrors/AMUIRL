@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 
+import '../../Utils/maps_utils.dart';
+
 Position? currentLocation;
 bool servicePermission = false;
 late LocationPermission permission;
@@ -46,10 +48,6 @@ class _MapWidgetState extends State<MapWidget> {
   final TextEditingController longitudeText = TextEditingController();
   LatLng? temporaryMarkerPos;
   double zoom = 17.0;
-
-  Marker createMarker(LatLng pos, Icon icon) {
-    return Marker(alignment: Alignment.center, point: pos, child: icon);
-  }
 
   @override
   build(BuildContext context) {
