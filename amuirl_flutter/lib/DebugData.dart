@@ -2,7 +2,7 @@ import 'package:amuirl_client/amuirl_client.dart';
 import 'package:flutter/material.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
-var client = Client('http://$localhost:8080/')
+var cliente = Client('http://$localhost:8080/')
   ..connectivityMonitor = FlutterConnectivityMonitor();
 
 void main() {
@@ -22,7 +22,7 @@ class _DebugdataState extends State<Debugdata> {
 
   void recupLobbies() async {
     try {
-      var lobbies = await client.lobbies.getAllLobby();
+      var lobbies = await cliente.lobbies.getAllLobby();
 
       if (lobbies.isNotEmpty) {
         setState(() {
@@ -87,7 +87,7 @@ class _DebugdataState extends State<Debugdata> {
 
   void recupPlayers() async {
     try {
-      var players = await client.users.getAllUser();
+      var players = await cliente.users.getAllUser();
 
       if (players.isNotEmpty) {
         setState(() {
@@ -182,8 +182,8 @@ class _DebugdataState extends State<Debugdata> {
 
               GestureDetector(
                 onTap: () => {
-                  client.lobbies.deleteAllLobbies(),
-                  client.users.deleteAllUsers()
+                  cliente.lobbies.deleteAllLobbies(),
+                  cliente.users.deleteAllUsers()
                 },
                 child: Container(
                   alignment: Alignment.center,

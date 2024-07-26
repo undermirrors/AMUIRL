@@ -3,6 +3,7 @@ import 'package:amuirl_flutter/Pages/Widget/GameCreation/game_settings.dart';
 import 'package:amuirl_flutter/Pages/Widget/GameCreation/load_interface.dart';
 import 'package:amuirl_flutter/Pages/Widget/GameCreation/saved_interface.dart';
 import 'package:amuirl_flutter/Pages/Widget/GameCreation/task_selector.dart';
+import 'package:amuirl_flutter/Pages/Widget/game.dart';
 import 'package:latlong2/latlong.dart';
 import 'game_creation_map.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ import 'package:flutter/material.dart';
 class CreationPageChangeProvider extends ChangeNotifier {
   late Widget widget;
 
-  CreationPageChangeProvider(Lobby lobby) {widget = GameSettings(currentLobby: lobby);}
+  CreationPageChangeProvider({required this.widget});
 
   void changeToGameSettings({required Lobby lobby}) {
     widget = GameSettings(currentLobby: lobby);
@@ -34,6 +35,11 @@ class CreationPageChangeProvider extends ChangeNotifier {
 
   void changeToLoadInterface({required String path, required Lobby lobby}) {
     widget = LoadInterface(path: path, currentLobby: lobby);
+    notifyListeners();
+  }
+
+  void changeToGameInterface({required Game game, required bool isCreator}) {
+    widget = GameInterface(isCreator: isCreator, currentGame: game.name,);
     notifyListeners();
   }
 }
@@ -67,6 +73,17 @@ class MapProvider extends ChangeNotifier {
     assert(index < map.taskMarkerCoord.length);
 
     map.taskMarkerCoord.removeAt(index);
+    notifyListeners();
+  }
+}
+
+class GameProvider extends ChangeNotifier {
+  Game? game;
+
+  GameProvider();
+
+  void modifyGame({required Game changedGame}) async {
+    game = changedGame;
     notifyListeners();
   }
 }

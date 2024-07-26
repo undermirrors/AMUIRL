@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:amuirl_flutter/Pages/Widget/join_game.dart';
-import 'package:amuirl_flutter/Pages/Widget/lobby_joined_interface.dart';
 import 'package:amuirl_flutter/Pages/Widget/lobby_name.dart';
 import 'package:amuirl_flutter/Pages/Widget/main_menu.dart';
 import 'package:amuirl_flutter/Pages/Widget/profile.dart';
@@ -47,7 +46,6 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder> {
         '/join_game': (context) => const JoinGame(),
-        '/lobby_joined_interface': (context) => const LobbyJoinedInterface(),
         '/lobby_name': (context) => const LobbyName(),
         '/main_menu': (context) => const MainMenu(),
         '/profile': (context) => const Profile(),

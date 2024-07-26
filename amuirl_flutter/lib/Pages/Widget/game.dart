@@ -1,16 +1,16 @@
 import 'dart:io';
 
-import 'package:amuirl_client/amuirl_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import '../Utils/maps_utils.dart';
+import '../Utils/providers.dart';
 
-Game? game;
 Position? currentLocation;
 bool servicePermission = false;
 late LocationPermission permission;
@@ -46,29 +46,27 @@ class _GameInterfaceState extends State<GameInterface> {
   double zoom = 17.0;
   List<Marker> markers = [];
 
-  void setGame(currentGame) async {
-    game = await client.game.getGame(currentGame);
-    print (game != null);
+  void setGame(String currentGame) async {
+    var game = await client.game.getGame(currentGame);
+    if (game != null) {
+      context.read<GameProvider>().modifyGame(changedGame: game);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      print("here");
-      setGame(widget.currentGame);
-    });
-
-    if (game != null) {
+    setGame(widget.currentGame);
+    if (context.read<GameProvider>().game != null) {
       updateUser(context);
-      int indexOfCurrentPlayer = game!.players.indexOf(currentUser!.name);
-      var taskLocation = game!.taskLeftForEachPlayers[indexOfCurrentPlayer];
+      int indexOfCurrentPlayer = context.read<GameProvider>().game!.players.indexOf(currentUser!.name);
+      var taskLocation = context.read<GameProvider>().game!.taskLeftForEachPlayers[indexOfCurrentPlayer];
       if (taskLocation.isNotEmpty) {
         markers.clear();
         markers.add(
             createMarker(
                 LatLng(
-                    game!.startedPoint.latitude,
-                    game!.startedPoint.longitude),
+                    context.read<GameProvider>().game!.startedPoint.latitude,
+                    context.read<GameProvider>().game!.startedPoint.longitude),
                 const Icon(
                     Icons.warehouse_rounded,
                     color: Colors.black
@@ -207,27 +205,24 @@ class _GameInterfaceState extends State<GameInterface> {
               ),
             ),
 
-            Text("imposteurs : ${game?.indexOfImpostors}"),
+            Text("NOM DU LOBBY : ${context.watch<GameProvider>().game?.name}"),
 
-            Text("joueurs : ${game?.players}"),
+            Text("imposteurs : ${context.watch<GameProvider>().game?.indexOfImpostors}"),
 
-            Text("distance de meurtres : ${game?.killDistance}"),
+            Text("joueurs : ${context.watch<GameProvider>().game?.players}"),
 
-            Text("nombres disponible d'urgences : ${game?.nbUrgencyCall}"),
+            Text("distance de meurtres : ${context.watch<GameProvider>().game?.killDistance}"),
 
-            Text("lobby alerte activé : ${game?.startedPointTriggered}"),
+            Text("nombres disponible d'urgences : ${context.watch<GameProvider>().game?.nbUrgencyCall}"),
 
-            Text("temps de discution/vote : ${game?.timeDiscutionVote}"),
+            Text("lobby alerte activé : ${context.watch<GameProvider>().game?.startedPointTriggered}"),
 
-            Text("temps entre chaque meurtres d'un imposteur : ${game?.cooldownKillByImpostors}"),
+            Text("temps de discution/vote : ${context.watch<GameProvider>().game?.timeDiscutionVote}"),
 
-            Text("toutes les taches disponibles : ${game?.totalTask}"),
-
-            Text("joueurs : ${game?.players}"),
+            Text("temps entre chaque meurtres d'un imposteur : ${context.watch<GameProvider>().game?.cooldownKillByImpostors}"),
           ],
         ),
       ),
     );
   }
-
 }

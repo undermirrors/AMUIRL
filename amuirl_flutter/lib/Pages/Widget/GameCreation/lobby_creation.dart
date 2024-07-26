@@ -3,6 +3,8 @@ import 'package:amuirl_flutter/Pages/Utils/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'game_settings.dart';
+
 class LobbyCreation extends StatefulWidget {
   Lobby currentLobby;
   LobbyCreation({super.key, required this.currentLobby});
@@ -22,8 +24,12 @@ class _LobbyCreationState extends State<LobbyCreation> {
         ),
 
         ChangeNotifierProvider(
-          create: (context) => CreationPageChangeProvider(widget.currentLobby),
-        )
+          create: (context) => CreationPageChangeProvider(widget: GameSettings(currentLobby: widget.currentLobby)),
+        ),
+
+        ChangeNotifierProvider(
+          create: (context) => GameProvider(),
+        ),
       ],
       builder: (context, child) {
         return context.watch<CreationPageChangeProvider>().widget;

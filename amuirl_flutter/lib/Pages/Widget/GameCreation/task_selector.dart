@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:amuirl_flutter/Pages/Utils/game_creation_map.dart';
-import 'package:amuirl_flutter/Pages/Widget/game.dart';
 import 'package:amuirl_flutter/Pages/Widget/GameCreation/map_widget.dart';
 import 'package:amuirl_flutter/Pages/Utils/providers.dart';
 import 'package:flutter/material.dart';
@@ -334,30 +333,30 @@ class _TaskSelectorState extends State<TaskSelector> {
                     //We can now add potentialTask to the true database of task for players
                     taskAttributions.add(potentialTask);
                   }
-                  await client.game.createGame(
-                    Game(
-                        name: widget.currentLobby.name,
-                        playersPosition: playersPosition,
-                        players: widget.currentLobby.players,
-                        timeBetweenImpostorKill: widget.currentLobby.gameParameter[1],
-                        killDistance: widget.currentLobby.gameParameter[2],
-                        nbUrgencyCall: widget.currentLobby.gameParameter[3],
-                        timeDiscutionVote: widget.currentLobby.gameParameter[4],
-                        playersDead: <String>[],
-                        indexOfImpostors: indexOfImpostors,
-                        taskLeftForEachPlayers: taskAttributions,
-                        totalTask: totalTask,
-                        cooldownKillByImpostors: impostorCooldown,
-                        startedPoint: LatitudeLongitude(latitude: startedPoint.latitude, longitude: startedPoint.longitude),
-                        startedPointTriggered: false,
-                        isGameEnded: false,
-                        dangerTriggered: false,
-                    )
+                  await client.lobbies.gameLaunch(widget.currentLobby.id!);
+
+                  Game game = Game(
+                    name: widget.currentLobby.name,
+                    playersPosition: playersPosition,
+                    players: widget.currentLobby.players,
+                    timeBetweenImpostorKill: widget.currentLobby.gameParameter[1],
+                    killDistance: widget.currentLobby.gameParameter[2],
+                    nbUrgencyCall: widget.currentLobby.gameParameter[3],
+                    timeDiscutionVote: widget.currentLobby.gameParameter[4],
+                    playersDead: <String>[],
+                    indexOfImpostors: indexOfImpostors,
+                    taskLeftForEachPlayers: taskAttributions,
+                    totalTask: totalTask,
+                    cooldownKillByImpostors: impostorCooldown,
+                    startedPoint: LatitudeLongitude(latitude: startedPoint.latitude, longitude: startedPoint.longitude),
+                    startedPointTriggered: false,
+                    isGameEnded: false,
+                    dangerTriggered: false,
                   );
 
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) =>
-                      GameInterface(isCreator: true, currentGame: widget.currentLobby.name,)));
+                  await client.game.createGame(game);
+
+                  context.read<CreationPageChangeProvider>().changeToGameInterface(game: game, isCreator: true);
                 } else {
                   print("You can't start the game without have all the task and the lobby placed");
                 }

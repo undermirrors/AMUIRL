@@ -1,5 +1,8 @@
+import 'package:amuirl_client/amuirl_client.dart';
 import 'package:amuirl_flutter/main.dart';
 import 'package:flutter/material.dart';
+
+import 'lobby_joined_interface.dart';
 
 
 class JoinGame extends StatefulWidget {
@@ -16,12 +19,12 @@ class _JoinGameState extends State<JoinGame> {
   int selectedValue = -1;
   int selectedLobbyId = 0;
   int selectedLobbyNbPlayer = 0;
+  Lobby? lobby;
 
   void addPlayer(int idLobby) async {
     if (currentUser != null) {
       await client.users.enterIntoLobby(currentUser!.name, idLobby);
-      var res = await client.lobbies.addPlayer(idLobby, currentUser!);
-      // print(res);
+      await client.lobbies.addPlayer(idLobby, currentUser!);
       updateUser(context);
     } else {
       Navigator.pushNamed(context, '/user_connexion');
@@ -30,7 +33,16 @@ class _JoinGameState extends State<JoinGame> {
 
   void recupLobbies(String lobbyResearch) async {
     try {
-      var lobbies = await client.lobbies.getAllLobby(keyword: lobbyResearch);
+      var allLobbies = await client.lobbies.getAllLobby(keyword: lobbyResearch);
+      List<Lobby> lobbies = [];
+      if (allLobbies.isNotEmpty) {
+        lobbies.clear();
+        for (int i = 0; i < allLobbies.length; i++) {
+          if (!allLobbies[i].gameLaunched) {
+            lobbies.add(allLobbies[i]);
+          }
+        }
+      }
 
       if (lobbies.isNotEmpty) {
         setState(() {
@@ -43,6 +55,7 @@ class _JoinGameState extends State<JoinGame> {
                     selectedValue = index;
                     selectedLobbyId = lobbies[index].id!;
                     selectedLobbyNbPlayer = lobbies[index].nbPlayer;
+                    lobby = lobbies[index];
                   })
                 },
                 child: Container(
@@ -151,7 +164,12 @@ class _JoinGameState extends State<JoinGame> {
                   if (selectedLobbyId != 0) {
                     if (selectedLobbyNbPlayer < 15) {
                       addPlayer(selectedLobbyId);
-                      Navigator.pushNamed(context, '/lobby_joined_interface');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LobbyJoinedInterface(currentLobby: lobby!)
+                          )
+                      );
                     } else {
                       print("trop de personne deja connecté à ce lobby");
                     }

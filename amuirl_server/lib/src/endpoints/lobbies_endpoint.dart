@@ -1,5 +1,4 @@
-import 'package:serverpod/database.dart';
-import 'package:serverpod/server.dart';
+import 'package:serverpod/serverpod.dart';
 import '../generated/protocol.dart';
 
 class LobbiesEndpoint extends Endpoint {
@@ -109,5 +108,26 @@ class LobbiesEndpoint extends Endpoint {
       lobby.gameLaunched = true;
       await Lobby.db.updateRow(session, lobby);
     }
+  }
+
+  @override
+  Future<void> streamOpened(StreamingSession session) async {
+    session.messages.addListener(
+        "1",
+        (message) {
+          sendStreamMessage(session, message);
+        }
+    );
+  }
+
+  @override
+  Future<void> handleStreamMessage(
+      StreamingSession session,
+      SerializableModel message
+  ) async {
+    session.messages.postMessage(
+      "1",
+      message
+    );
   }
 }
