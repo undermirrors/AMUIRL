@@ -1,6 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
+
+void resetUser() {
+  client.users.exitLobby(currentUser!.name);
+}
+
 class MainMenu extends StatefulWidget {
 
   const MainMenu({super.key});
@@ -18,6 +24,7 @@ class _MainMenuState extends State<MainMenu> {
 
   @override
   Widget build(BuildContext context) {
+    resetUser();
     return Scaffold(
       key: scaffoldKey,
       drawer: Drawer(

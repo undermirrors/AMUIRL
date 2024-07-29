@@ -168,7 +168,7 @@ class _TaskSelectorState extends State<TaskSelector> {
               height: 50,
               width: 420,
               padding: const EdgeInsets.all(5.0),
-              color: Colors.black,
+              color: Colors.blueGrey[500],
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
@@ -185,7 +185,7 @@ class _TaskSelectorState extends State<TaskSelector> {
                       height: 30,
                       width: 30,
                       margin: const EdgeInsets.all(5),
-                      color: selectedMarker == -1 ? Colors.blueGrey : Colors.blueGrey[800],
+                      color: selectedMarker == -1 ? Colors.blueGrey[100] : Colors.blueGrey[300],
                       child: const Icon(Icons.warehouse_rounded),
                     ),
                   ),
@@ -204,7 +204,7 @@ class _TaskSelectorState extends State<TaskSelector> {
                           height: 30,
                           width: 30,
                           margin: const EdgeInsets.all(5),
-                          color: selectedMarker == i ? Colors.blueGrey: Colors.blueGrey[800],
+                          color: selectedMarker == i ? Colors.blueGrey[100] : Colors.blueGrey[300],
                           child: const Icon(Icons.build_circle),
                         ),
                       ),
@@ -221,7 +221,7 @@ class _TaskSelectorState extends State<TaskSelector> {
                     markerAlreadyApprovedOnce = false;
                   },
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 40.0),
+                    margin: const EdgeInsets.symmetric(horizontal: 10.0),
                     alignment: Alignment.center,
                     height: 100,
                     width: 100,
@@ -236,6 +236,29 @@ class _TaskSelectorState extends State<TaskSelector> {
                   ),
                 ),
 
+
+                GestureDetector(
+                  onTap: () async {
+                    newMarker = 4;
+                    markerAlreadyApprovedOnce = false;
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 75,
+                    width: 75,
+                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                    decoration: BoxDecoration(
+                      color: Colors.blueGrey[300],
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: const Icon(
+                      Icons.location_on,
+                      size: 30,
+                    ),
+                  ),
+                ),
+
+
                 GestureDetector(
                   onTap: () {
                     newMarker = 3;
@@ -247,6 +270,7 @@ class _TaskSelectorState extends State<TaskSelector> {
                     alignment: Alignment.center,
                     height: 75,
                     width: 75,
+                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
                     decoration: BoxDecoration(
                       color: Colors.blueGrey[300],
                       borderRadius: BorderRadius.circular(30.0),
@@ -266,7 +290,7 @@ class _TaskSelectorState extends State<TaskSelector> {
                     }
                   },
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 40.0),
+                    margin: const EdgeInsets.symmetric(horizontal: 10.0),
                     alignment: Alignment.center,
                     height: 100,
                     width: 100,

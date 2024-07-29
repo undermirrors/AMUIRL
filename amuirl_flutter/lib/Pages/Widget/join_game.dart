@@ -134,8 +134,31 @@ class _JoinGameState extends State<JoinGame> {
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            GestureDetector(
+              onTap: () => {
+                recupLobbies(nameLobby.text),
+                setState(() {
+                  selectedValue = -1;
+                  selectedLobbyId = 0;
+                })
+              },
+              child: Container(
+                alignment: Alignment.center,
+                width: 80,
+                height: 40,
+                margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.black12,
+                ),
+                child: const Text(
+                    "Recharger"
+                ),
+              ),
+            ),
+
             Container(
-              margin: const EdgeInsets.all(30),
+              margin: const EdgeInsets.all(10),
               child :TextField(
                 onTap: () => {
                   setState(() {
@@ -150,7 +173,7 @@ class _JoinGameState extends State<JoinGame> {
                 ),
               ),
             ),
-
+            
             Container(
               width: 500,
               height: 400,

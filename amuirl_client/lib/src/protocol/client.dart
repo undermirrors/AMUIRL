@@ -92,7 +92,7 @@ class EndpointGame extends _i1.EndpointRef {
   _i2.Future<bool> finishTask(
     String nameGame,
     String playerName,
-    _i4.LatitudeLongitude task,
+    int taskIndex,
   ) =>
       caller.callServerEndpoint<bool>(
         'game',
@@ -100,7 +100,7 @@ class EndpointGame extends _i1.EndpointRef {
         {
           'nameGame': nameGame,
           'playerName': playerName,
-          'task': task,
+          'taskIndex': taskIndex,
         },
       );
 
@@ -179,6 +179,12 @@ class EndpointGame extends _i1.EndpointRef {
       caller.callServerEndpoint<void>(
         'game',
         'testIfGameEnded',
+        {'nameGame': nameGame},
+      );
+
+  _i2.Future<void> endGame(String nameGame) => caller.callServerEndpoint<void>(
+        'game',
+        'endGame',
         {'nameGame': nameGame},
       );
 }

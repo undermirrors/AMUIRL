@@ -208,9 +208,9 @@ class Endpoints extends _i1.EndpointDispatch {
               type: _i1.getType<String>(),
               nullable: false,
             ),
-            'task': _i1.ParameterDescription(
-              name: 'task',
-              type: _i1.getType<_i7.LatitudeLongitude>(),
+            'taskIndex': _i1.ParameterDescription(
+              name: 'taskIndex',
+              type: _i1.getType<int>(),
               nullable: false,
             ),
           },
@@ -222,7 +222,7 @@ class Endpoints extends _i1.EndpointDispatch {
             session,
             params['nameGame'],
             params['playerName'],
-            params['task'],
+            params['taskIndex'],
           ),
         ),
         'triggerLobby': _i1.MethodConnector(
@@ -402,6 +402,24 @@ class Endpoints extends _i1.EndpointDispatch {
             Map<String, dynamic> params,
           ) async =>
               (endpoints['game'] as _i3.GameEndpoint).testIfGameEnded(
+            session,
+            params['nameGame'],
+          ),
+        ),
+        'endGame': _i1.MethodConnector(
+          name: 'endGame',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).endGame(
             session,
             params['nameGame'],
           ),

@@ -82,8 +82,23 @@ class GameProvider extends ChangeNotifier {
 
   GameProvider();
 
+  bool? isImpostor({required String playerName}) {
+    return game?.indexOfImpostors.contains(playerName);
+  }
+
   void modifyGame({required Game changedGame}) async {
     game = changedGame;
     notifyListeners();
+  }
+
+  int recupAllTaskLeft() {
+    if (game != null) {
+      int res = 0;
+      for (int i = 0; i < game!.taskLeftForEachPlayers.length; i++) {
+        res += game!.taskLeftForEachPlayers[i].length;
+      }
+      return res;
+    }
+    return -1;
   }
 }

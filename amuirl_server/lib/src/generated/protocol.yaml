@@ -17,6 +17,7 @@ game:
   - getAllPlayer:
   - getGameTotalTaskLeft:
   - testIfGameEnded:
+  - endGame:
 lobbies:
   - deleteAllLobbies:
   - createLobby:

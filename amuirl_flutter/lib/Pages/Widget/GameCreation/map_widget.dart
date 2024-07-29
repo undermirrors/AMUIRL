@@ -56,23 +56,25 @@ class _MapWidgetState extends State<MapWidget> {
       fromLoadedMap = null;
     }
 
-    if (temporaryMarkerPos != null) {
-      switch (widget.newMarker) {
-        case 0:
-          break;
-        case 1:
-          context.read<MapProvider>().changeLobbyPos(lobbyPos: temporaryMarkerPos!);
+
+    switch (widget.newMarker) {
+      case 0:
+        break;
+      case 1:
+        if (temporaryMarkerPos != null) {
+          context.read<MapProvider>().changeLobbyPos(
+              lobbyPos: temporaryMarkerPos!);
           temporaryMarkerPos = null;
-          break;
-        case 2:
-          context.read<MapProvider>().addTaskPos(taskPos: temporaryMarkerPos!);
+        }
+        break;
+      case 2:
+        if (temporaryMarkerPos != null) {
+          context.read<MapProvider>().addTaskPos(
+              taskPos: temporaryMarkerPos!);
           temporaryMarkerPos = null;
-          break;
-        default:
-          break;
-      }
-    } else {
-      if (widget.newMarker == 3) {
+        }
+        break;
+      case 3:
         temporaryMarkerPos = null;
         if (widget.selectedMarker != null) {
           if (widget.selectedMarker == -1) {
@@ -81,7 +83,17 @@ class _MapWidgetState extends State<MapWidget> {
             context.read<MapProvider>().deleteTaskPos(index: widget.selectedMarker!);
           }
         }
-      }
+        break;
+      case 4:
+        getCurrentLocation();
+        print("here");
+        print(getCurrentLocation());
+        if (currentLocation != null) {
+          temporaryMarkerPos = LatLng(currentLocation!.latitude, currentLocation!.longitude);
+        }
+        break;
+      default:
+        break;
     }
 
     List<Marker> markers = [];
@@ -137,7 +149,11 @@ class _MapWidgetState extends State<MapWidget> {
 
               MarkerLayer(markers: markers),
 
-              CurrentLocationLayer(),
+              CurrentLocationLayer(
+                style: const LocationMarkerStyle(
+                  markerSize: Size(15, 15),
+                ),
+              ),
 
               Container(
                 alignment: Alignment.topRight,

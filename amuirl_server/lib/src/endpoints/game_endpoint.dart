@@ -59,12 +59,14 @@ class GameEndpoint extends Endpoint {
     return <int>[crewmateSafeLeft, impostorLeft];
   }
 
-  Future<bool> finishTask(Session session, String nameGame, String playerName, LatitudeLongitude task) async {
+  Future<bool> finishTask(Session session, String nameGame, String playerName, int taskIndex) async {
     Game? game = await getGame(session, nameGame);
     if (game != null) {
       int playerIndex = game.players.indexOf(playerName);
       if (playerIndex != -1) {
-        return game.taskLeftForEachPlayers[playerIndex].remove(task);
+        game.taskLeftForEachPlayers[playerIndex].removeAt(taskIndex);
+        await Game.db.updateRow(session, game);
+        return true;
       }
     }
     return false;
@@ -161,6 +163,13 @@ class GameEndpoint extends Endpoint {
     }
   }
 
+  Future<void> endGame(Session session, String nameGame) async {
+    Game? game = await getGame(session, nameGame);
+    if (game != null) {
+      game.isGameEnded = true;
+      await Game.db.updateRow(session, game);
+    }
+  }
 
   // Todo : make a function for send alert
 }
