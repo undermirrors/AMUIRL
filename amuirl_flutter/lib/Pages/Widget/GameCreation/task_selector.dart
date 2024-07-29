@@ -15,8 +15,7 @@ import '../../Utils/file_manager.dart';
 LatLng? fromLoadedMap;
 
 class TaskSelector extends StatefulWidget {
-  Lobby currentLobby;
-  TaskSelector({super.key, required this.currentLobby});
+  const TaskSelector({super.key});
 
   @override
   State<TaskSelector> createState() => _TaskSelectorState();
@@ -33,10 +32,10 @@ class _TaskSelectorState extends State<TaskSelector> {
   void taskLeftToPlace(int taskPlaced) async {
     updateUser(context);
     if (currentUser != null) {
-      var lobby = await client.lobbies.getLobby(widget.currentLobby.id!);
+      var lobby = await client.lobbies.getLobby(currentLobby!.id!);
       if (lobby != null) {
         setState(() {
-          widget.currentLobby = lobby;
+          currentLobby = lobby;
           nbTask = lobby.gameParameter[6] - taskPlaced;
         });
       }
@@ -84,7 +83,7 @@ class _TaskSelectorState extends State<TaskSelector> {
                 title: const Text("S A U V E G A R D E R"),
                 onTap: () async {
                   GameMap savedMap = context.read<MapProvider>().map;
-                  context.read<CreationPageChangeProvider>().changeToSavedInterface(map: savedMap, lobby: widget.currentLobby);
+                  context.read<CreationPageChangeProvider>().changeToSavedInterface(map: savedMap, lobby: currentLobby!);
                 },
               )
             ),
@@ -96,7 +95,7 @@ class _TaskSelectorState extends State<TaskSelector> {
                 title: const Text("C H A R G E R"),
                 onTap: () async {
                   String path = await localPath;
-                  context.read<CreationPageChangeProvider>().changeToLoadInterface(path: path, lobby: widget.currentLobby);
+                  context.read<CreationPageChangeProvider>().changeToLoadInterface(path: path, lobby: currentLobby!);
                 },
               ),
             ),
@@ -114,7 +113,7 @@ class _TaskSelectorState extends State<TaskSelector> {
                 GestureDetector(
                   onTap: () {
                     context.read<MapProvider>().clear(); // We clear the map when we return to the previous page
-                    context.read<CreationPageChangeProvider>().changeToGameSettings(lobby: widget.currentLobby);
+                    context.read<CreationPageChangeProvider>().changeToGameSettings();
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -312,14 +311,14 @@ class _TaskSelectorState extends State<TaskSelector> {
             GestureDetector(
               onTap: () async {
                 if (context.read<MapProvider>().map.lobbyMarkerPos != null && nbTask == 0) {
-                  int totalNbPlayer = widget.currentLobby.players.length;
+                  int totalNbPlayer = currentLobby!.players.length;
                   LatLng startedPoint = context.read<MapProvider>().map.lobbyMarkerPos!; // if you enter this if condition, lobbyMarkerPos is not null
                   List<LatitudeLongitude> totalTask = <LatitudeLongitude>[];
                   List<LatitudeLongitude?> playersPosition = [];
                   List<int> impostorCooldown = [];
-                  int nbImposteur = widget.currentLobby.gameParameter[0];
+                  int nbImposteur = currentLobby!.gameParameter[0];
                   List<String> indexOfImpostors = <String>[];
-                  int nbTaskPerPlayer = widget.currentLobby.gameParameter[5];
+                  int nbTaskPerPlayer = currentLobby!.gameParameter[5];
                   List<List<LatitudeLongitude>> taskAttributions = [];
 
                   for (int i = 0; i < context.read<MapProvider>().map.taskMarkerCoord.length; i++) {
@@ -338,8 +337,8 @@ class _TaskSelectorState extends State<TaskSelector> {
 
                   while (nbImposteur > 0) {
                     int indexFutureImpostor = Random().nextInt(totalNbPlayer);
-                    if (!indexOfImpostors.contains(widget.currentLobby.players[indexFutureImpostor])) {
-                      indexOfImpostors.add(widget.currentLobby.players[indexFutureImpostor]);
+                    if (!indexOfImpostors.contains(currentLobby!.players[indexFutureImpostor])) {
+                      indexOfImpostors.add(currentLobby!.players[indexFutureImpostor]);
                       nbImposteur--;
                     }
                   }
@@ -359,16 +358,16 @@ class _TaskSelectorState extends State<TaskSelector> {
                     //We can now add potentialTask to the true database of task for players
                     taskAttributions.add(potentialTask);
                   }
-                  await client.lobbies.gameLaunch(widget.currentLobby.id!);
+                  await client.lobbies.gameLaunch(currentLobby!.id!);
 
                   Game game = Game(
-                    name: widget.currentLobby.name,
+                    name: currentLobby!.name,
                     playersPosition: playersPosition,
-                    players: widget.currentLobby.players,
-                    timeBetweenImpostorKill: widget.currentLobby.gameParameter[1],
-                    killDistance: widget.currentLobby.gameParameter[2],
-                    nbUrgencyCall: widget.currentLobby.gameParameter[3],
-                    timeDiscutionVote: widget.currentLobby.gameParameter[4],
+                    players: currentLobby!.players,
+                    timeBetweenImpostorKill: currentLobby!.gameParameter[1],
+                    killDistance: currentLobby!.gameParameter[2],
+                    nbUrgencyCall: currentLobby!.gameParameter[3],
+                    timeDiscutionVote: currentLobby!.gameParameter[4],
                     playersDead: <String>[],
                     indexOfImpostors: indexOfImpostors,
                     taskLeftForEachPlayers: taskAttributions,

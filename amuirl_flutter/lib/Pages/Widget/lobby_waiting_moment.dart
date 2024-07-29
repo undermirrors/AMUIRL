@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +6,7 @@ import '../Utils/lobby_value_basics.dart';
 import '../Utils/providers.dart';
 
 class LobbyWaitingMoment extends StatefulWidget {
-  late Lobby currentLobby;
-  LobbyWaitingMoment({super.key, required this.currentLobby});
+  const LobbyWaitingMoment({super.key});
 
   @override
   State<LobbyWaitingMoment> createState() => _LobbyWaitingMomentState();
@@ -27,6 +24,8 @@ class _LobbyWaitingMomentState extends State<LobbyWaitingMoment> {
     if (lobby != null) {
       await client.lobbies.suppressPlayer(lobby.id!, currentUser!);
     }
+    currentUser!.currentlobby = 0;
+    // ignore: use_build_context_synchronously
     Navigator.pop(context);
   }
 
@@ -37,6 +36,7 @@ class _LobbyWaitingMomentState extends State<LobbyWaitingMoment> {
       if (lobby.gameLaunched) {
         Game? game = await client.game.getGame(lobby.name);
         if (game != null) {
+          // ignore: use_build_context_synchronously
           context.read<CreationPageChangeProvider>().changeToGameInterface(
               game: game, isCreator: false);
         } else {
@@ -45,7 +45,7 @@ class _LobbyWaitingMomentState extends State<LobbyWaitingMoment> {
       }
       setState(() {
         players = lobby.players;
-        widget.currentLobby = lobby;
+        currentLobby = lobby;
         valueParam = lobby.gameParameter;
       });
     } else {
@@ -62,6 +62,7 @@ class _LobbyWaitingMomentState extends State<LobbyWaitingMoment> {
     } else {
       Navigator.pushNamed(context, '/user_connexion');
     }
+
     return Scaffold(
       backgroundColor: Colors.blue[50],
       body: Column(
@@ -84,7 +85,7 @@ class _LobbyWaitingMomentState extends State<LobbyWaitingMoment> {
               Container(
                 alignment: Alignment.center,
                 child: Text(
-                  widget.currentLobby.name,
+                  currentLobby!.name,
                   style: const TextStyle(
                     fontSize: 36,
                   ),

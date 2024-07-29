@@ -1,4 +1,3 @@
-import 'package:amuirl_client/amuirl_client.dart';
 import 'package:amuirl_flutter/Pages/Utils/lobby_value_basics.dart';
 import 'package:amuirl_flutter/Pages/Utils/providers.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../main.dart';
 
 class GameSettings extends StatefulWidget {
-  Lobby currentLobby;
-  GameSettings({super.key, required this.currentLobby});
+  const GameSettings({super.key});
 
   @override
   State<GameSettings> createState() => _GameSettingsState();
@@ -23,11 +21,11 @@ class _GameSettingsState extends State<GameSettings> {
   void getPlayerInfoclient() async {
     updateUser(context);
     if (currentUser != null) {
-      var lobby = await client.lobbies.getLobby(widget.currentLobby.id!);
+      var lobby = await client.lobbies.getLobby(currentLobby!.id!);
       if (lobby != null) {
         setState(() {
           players = lobby.players;
-          widget.currentLobby = lobby;
+          currentLobby = lobby;
           if (players != null) {
             switch (players!.length) {
               case < 3 :
@@ -102,7 +100,7 @@ class _GameSettingsState extends State<GameSettings> {
                       GestureDetector(
                         onTap: () =>
                         {
-                          client.lobbies.deleteLobby(widget.currentLobby),
+                          client.lobbies.deleteLobby(currentLobby!),
                           Navigator.pop(context)
                         },
                         child: Container(
@@ -119,7 +117,7 @@ class _GameSettingsState extends State<GameSettings> {
                         margin: const EdgeInsets.all(30),
                         alignment: Alignment.center,
                         child: Text(
-                          widget.currentLobby.name,
+                          currentLobby!.name,
                           style: const TextStyle(
                             fontSize: 36,
                           ),
@@ -246,7 +244,7 @@ class _GameSettingsState extends State<GameSettings> {
           GestureDetector(
             onTap: () {
               // if (players!.length > 4) {
-              context.read<CreationPageChangeProvider>().changeToTaskSelector(lobby: widget.currentLobby);
+              context.read<CreationPageChangeProvider>().changeToTaskSelector();
               // } else {
               //  print ("Not enougth players");
               // }

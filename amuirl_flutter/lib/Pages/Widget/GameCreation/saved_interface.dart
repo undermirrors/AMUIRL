@@ -33,7 +33,7 @@ class _SavedInterfaceState extends State<SavedInterface> {
               children: [
                 GestureDetector(
                   onTap: () => {
-                    context.read<CreationPageChangeProvider>().changeToTaskSelector(lobby: widget.currentLobby)
+                    context.read<CreationPageChangeProvider>().changeToTaskSelector()
                   },
                   child: Container(
                     height: 30,
@@ -72,7 +72,7 @@ class _SavedInterfaceState extends State<SavedInterface> {
                 GestureDetector(
                   onTap: () async => {
                     await writeSavedMap(widget.map, nameFile.text),
-                    context.read<CreationPageChangeProvider>().changeToTaskSelector(lobby: widget.currentLobby)        ,
+                    context.read<CreationPageChangeProvider>().changeToTaskSelector()        ,
                   },
                   child: Container(
                     alignment: Alignment.center,

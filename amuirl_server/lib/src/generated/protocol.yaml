@@ -41,3 +41,5 @@ users:
   - changeMdp:
   - enterIntoLobby:
   - exitLobby:
+  - getUploadDescription:
+  - verifyUpload:

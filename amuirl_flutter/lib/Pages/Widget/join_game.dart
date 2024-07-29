@@ -201,6 +201,7 @@ class _JoinGameState extends State<JoinGame> {
                   if (selectedLobbyId != 0) {
                     if (selectedLobbyNbPlayer < 15) {
                       addPlayer(selectedLobbyId);
+                      currentLobby = lobby!;
                       Navigator.push(
                           context,
                           MaterialPageRoute(

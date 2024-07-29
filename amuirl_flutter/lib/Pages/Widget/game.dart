@@ -1,7 +1,7 @@
-// ignore_for_file: use_build_context_synchronously
-
+import 'dart:async';
 import 'dart:io';
 
+import 'package:amuirl_flutter/Pages/Widget/user_connexion.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -16,7 +16,7 @@ import '../Utils/providers.dart';
 
 Position? currentLocation;
 bool servicePermission = false;
-late LocationPermission permission;
+LocationPermission permission = LocationPermission.unableToDetermine;
 final MapController mapController = MapController();
 
 Future<bool> getCurrentLocation() async {
@@ -64,8 +64,10 @@ class _GameInterfaceState extends State<GameInterface> {
     await client.game.testIfGameEnded(currentGame);
     var game = await client.game.getGame(currentGame);
     if (game != null) {
+      // ignore: use_build_context_synchronously
       context.read<GameProvider>().modifyGame(changedGame: game);
       setState(() {
+
       });
     }
   }
@@ -73,16 +75,19 @@ class _GameInterfaceState extends State<GameInterface> {
   @override
   Widget build(BuildContext context) {
     setGame(widget.currentGame);
-    if (lobbyTriggered) {
-      setState(() {
-        nbPlayerLeft = context.read<GameProvider>().game!.players.length - context.read<GameProvider>().game!.playersDead.length;
-      });
-    }
 
     if (context.read<GameProvider>().game != null) {
       updateUser(context);
       int indexOfCurrentPlayer = context.read<GameProvider>().game!.players.indexOf(currentUser!.name);
       var taskLocation = context.read<GameProvider>().game!.taskLeftForEachPlayers[indexOfCurrentPlayer];
+
+      setState(() {
+        lobbyTriggered = context.read<GameProvider>().game!.startedPointTriggeredBy != "";
+        if (lobbyTriggered) {
+            nbPlayerLeft = context.read<GameProvider>().game!.players.length - context.read<GameProvider>().game!.playersDead.length;
+        }
+      });
+
       if (taskLocation.isNotEmpty) {
         markers.clear();
         markers.add(
@@ -123,6 +128,8 @@ class _GameInterfaceState extends State<GameInterface> {
       }
     }
 
+    getCurrentLocation();
+    updateImg();
     return Scaffold(
       backgroundColor: Colors.blue[50],
       key: scaffoldGameKey,
@@ -214,8 +221,8 @@ class _GameInterfaceState extends State<GameInterface> {
                         height: 150,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
-                          image: const DecorationImage(
-                            image: AssetImage("lib/assets/user.jpg"), // TODO
+                          image: DecorationImage(
+                            image: updateImg(),
                             fit: BoxFit.cover,
                           )
                         ),
@@ -309,7 +316,7 @@ class _GameInterfaceState extends State<GameInterface> {
                         ),
 
                         Text(
-                            ": ${context.read<GameProvider>().game!.indexOfImpostors.length}"
+                            ": ${context.read<GameProvider>().game?.indexOfImpostors.length ?? 0}"
                         ),
                       ]
                     ),
@@ -347,7 +354,8 @@ class _GameInterfaceState extends State<GameInterface> {
 
                       MarkerLayer(markers: markers),
 
-                      CurrentLocationLayer(),
+                      if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) //Todo: Location will be needed in the future
+                        CurrentLocationLayer(),
 
                       Container(
                         alignment: Alignment.topRight,
@@ -475,12 +483,12 @@ class _GameInterfaceState extends State<GameInterface> {
                   ),
                 ),
 
+                if (context.read<GameProvider>().game != null)
                 if (context.read<GameProvider>().game!.startedPointTriggeredBy == "" && context.read<GameProvider>().game!.nbUrgencyCall - nbLobbyTriggerUsed > 0)
                   GestureDetector(
                     onTap: () async => {
                       await client.game.triggerLobby(context.read<GameProvider>().game!.name, currentUser!.name),
                       nbLobbyTriggerUsed++,
-                      lobbyTriggered = true,
                     },
                     child: Container(
                       margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10),
@@ -501,6 +509,7 @@ class _GameInterfaceState extends State<GameInterface> {
                     ),
                   ),
 
+                if (context.read<GameProvider>().game != null)
                 if (context.read<GameProvider>().game!.startedPointTriggeredBy == "" && context.read<GameProvider>().game!.nbUrgencyCall - nbLobbyTriggerUsed <= 0)
                   Container(
                     margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10),
@@ -515,12 +524,13 @@ class _GameInterfaceState extends State<GameInterface> {
                     )
                   ),
 
+                if (context.read<GameProvider>().game != null)
                 if (context.read<GameProvider>().game!.startedPointTriggeredBy != "")
                   GestureDetector(
                     onTap: () async => {
                       if (context.read<GameProvider>().game!.startedPointTriggeredBy == currentUser!.name) {
                         await client.game.triggerLobby(context.read<GameProvider>().game!.name, ""),
-                      }
+                      },
                     },
                     child: Container(
                         margin: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10),
@@ -545,6 +555,8 @@ class _GameInterfaceState extends State<GameInterface> {
                   GestureDetector(
                     onTap: () async => {
                       client.game.endGame(context.read<GameProvider>().game!.name),
+                      currentUser!.currentlobby = 0,
+                      currentLobby = null,
                       Navigator.pushNamed(context, '/main_menu')
                     },
                     child: Container(

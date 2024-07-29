@@ -395,6 +395,19 @@ class EndpointUsers extends _i1.EndpointRef {
         'exitLobby',
         {'username': username},
       );
+
+  _i2.Future<String?> getUploadDescription(String path) =>
+      caller.callServerEndpoint<String?>(
+        'users',
+        'getUploadDescription',
+        {'path': path},
+      );
+
+  _i2.Future<bool> verifyUpload(String path) => caller.callServerEndpoint<bool>(
+        'users',
+        'verifyUpload',
+        {'path': path},
+      );
 }
 
 class Client extends _i1.ServerpodClient {

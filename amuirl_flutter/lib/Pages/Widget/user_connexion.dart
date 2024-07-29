@@ -5,6 +5,16 @@ import 'package:flutter/material.dart';
 
 import '../../main.dart';
 
+AssetImage updateImg() {
+  //todo: only for five pseudo currently
+  if (<String>["docflo", "zalma", "undermirrors", "sushi", "xopyh"].contains(currentUser!.name)) {
+    img = AssetImage("lib/assets/${currentUser!.name}.png");
+  } else {
+    img = const AssetImage("lib/assets/user.png");
+  }
+  return img;
+}
+
 class UserConnexion extends StatefulWidget {
   const UserConnexion({super.key});
 
@@ -124,6 +134,7 @@ class _UserConnexionState extends State<UserConnexion> {
                       if (connexion != null) {
                         if (connexion.mdp == mdp.text) {
                           currentUser = connexion;
+                          updateImg();
                           Navigator.pushNamed(context, '/main_menu');
                         } else {
                           //Todo: print("invalid user mdp");
@@ -143,6 +154,7 @@ class _UserConnexionState extends State<UserConnexion> {
                         );
                         await client.users.createUser(newUser);
                         currentUser = newUser;
+                        updateImg();
                         Navigator.pushNamed(context, '/main_menu');
                       } else {
                         //Todo: print("user exist in database");

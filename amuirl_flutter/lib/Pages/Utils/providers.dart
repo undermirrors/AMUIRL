@@ -18,13 +18,13 @@ class CreationPageChangeProvider extends ChangeNotifier {
 
   CreationPageChangeProvider({required this.widget});
 
-  void changeToGameSettings({required Lobby lobby}) {
-    widget = GameSettings(currentLobby: lobby);
+  void changeToGameSettings() {
+    widget = const GameSettings();
     notifyListeners();
   }
 
-  void changeToTaskSelector({required Lobby lobby}) {
-    widget = TaskSelector(currentLobby: lobby);
+  void changeToTaskSelector() {
+    widget = const TaskSelector();
     notifyListeners();
   }
 

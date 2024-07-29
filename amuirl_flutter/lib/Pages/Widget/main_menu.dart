@@ -21,10 +21,11 @@ class _MainMenuState extends State<MainMenu> {
   static const double fontSizeButton = 25;
   final double widthButton = 200;
 
-
   @override
   Widget build(BuildContext context) {
     resetUser();
+    currentLobby = null;
+
     return Scaffold(
       key: scaffoldKey,
       drawer: Drawer(
@@ -34,10 +35,10 @@ class _MainMenuState extends State<MainMenu> {
               child: Container(
               width: 135,
               height: 100,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(100)),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(100)),
                   image: DecorationImage(
-                    image: AssetImage("lib/assets/user.jpg"),
+                    image: img,
                     fit: BoxFit.cover,
                   )
                 ),

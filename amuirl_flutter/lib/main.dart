@@ -9,11 +9,17 @@ import 'package:amuirl_flutter/Pages/Widget/user_connexion.dart';
 import 'package:flutter/services.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
+/*
+  const int reloadTime = 800; // in milliseconds
+  Timer.periodic(const Duration(milliseconds: reloadTime), (timer) {TO DO}
+*/
+
 var client = Client('http://$localhost:8080/')
   ..connectivityMonitor = FlutterConnectivityMonitor();
 
 User? currentUser;
-
+Lobby? currentLobby;
+AssetImage img= const AssetImage("lib/assets/user.png");
 void updateUser(BuildContext context) async {
   if (currentUser != null) {
     currentUser = await client.users.getUser(currentUser!.name);

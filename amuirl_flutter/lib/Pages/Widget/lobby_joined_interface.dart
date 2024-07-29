@@ -18,7 +18,7 @@ class _LobbyJoinedInterfaceState extends State<LobbyJoinedInterface> {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (context) => CreationPageChangeProvider(widget: LobbyWaitingMoment(currentLobby: widget.currentLobby)),
+            create: (context) => CreationPageChangeProvider(widget: const LobbyWaitingMoment()),
           ),
 
           ChangeNotifierProvider(

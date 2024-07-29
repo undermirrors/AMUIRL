@@ -40,7 +40,7 @@ class _LoadInterfaceState extends State<LoadInterface> {
                 children: [
                   GestureDetector(
                     onTap: () => {
-                      context.read<CreationPageChangeProvider>().changeToTaskSelector(lobby: widget.currentLobby)
+                      context.read<CreationPageChangeProvider>().changeToTaskSelector()
                     },
                     child: Container(
                       height: 30,
@@ -126,7 +126,7 @@ class _LoadInterfaceState extends State<LoadInterface> {
                             fromLoadedMap = map!.taskMarkerCoord.first
                           },
 
-                          context.read<CreationPageChangeProvider>().changeToTaskSelector(lobby: widget.currentLobby)
+                          context.read<CreationPageChangeProvider>().changeToTaskSelector()
                         } else {
                           //Todo: "cannot load map" message !
                         }

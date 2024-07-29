@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:amuirl_flutter/Pages/Widget/GameCreation/lobby_creation.dart';
 import 'package:amuirl_flutter/Pages/Utils/lobby_value_basics.dart';
@@ -20,6 +18,7 @@ class _LobbyNameState extends State<LobbyName> {
 
   @override
   Widget build(BuildContext context) {
+    currentLobby = null;
     return Scaffold(
       backgroundColor: Colors.blue[50],
 
@@ -84,8 +83,11 @@ class _LobbyNameState extends State<LobbyName> {
                         List<Lobby> newLobby = await client.lobbies.getAllLobby(keyword: nameLobby.text);
                         Lobby lobby = newLobby[0];
                         await client.users.enterIntoLobby(currentUser!.name, lobby.id!);
+                        currentLobby = lobby;
+                        // ignore: use_build_context_synchronously
                         updateUser(context);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => LobbyCreation(currentLobby: lobby)));
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const LobbyCreation()));
                       } catch (e) {
                         setState(() {
                           _errorMessage = '$e';
