@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:amuirl_flutter/Pages/Utils/game_creation_map.dart';
 import 'package:amuirl_flutter/Pages/Utils/providers.dart';

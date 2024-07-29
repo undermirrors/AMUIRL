@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:amuirl_flutter/Pages/Utils/providers.dart';
 import 'package:amuirl_flutter/Pages/Widget/GameCreation/task_selector.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -22,7 +23,9 @@ Future<bool> getCurrentLocation() async {
   }
   servicePermission = await Geolocator.isLocationServiceEnabled();
   if (!servicePermission) {
-    print("service disabled");
+    if (kDebugMode) {
+      print("service disabled");
+    }
   }
   permission = await Geolocator.checkPermission();
   if (permission == LocationPermission.denied) {
@@ -86,8 +89,6 @@ class _MapWidgetState extends State<MapWidget> {
         break;
       case 4:
         getCurrentLocation();
-        print("here");
-        print(getCurrentLocation());
         if (currentLocation != null) {
           temporaryMarkerPos = LatLng(currentLocation!.latitude, currentLocation!.longitude);
         }
@@ -277,8 +278,6 @@ class _MapWidgetState extends State<MapWidget> {
               onTap: () => {
 
                 if (longitudeText.text.isNotEmpty && latitudeText.text.isNotEmpty) {
-                  print(latitudeText.text),
-                  print(longitudeText.text),
                   setState(() {
                     temporaryMarkerPos = LatLng(double.parse(latitudeText.text), double.parse(longitudeText.text));
                   })

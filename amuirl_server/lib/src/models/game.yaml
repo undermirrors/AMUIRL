@@ -14,6 +14,6 @@ fields:
   totalTask: List<LatitudeLongitude>
   cooldownKillByImpostors: List<int>
   startedPoint: LatitudeLongitude
-  startedPointTriggered: bool
+  startedPointTriggeredBy: String
   isGameEnded: bool
   dangerTriggered: bool

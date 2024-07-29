@@ -34,7 +34,7 @@ Future<GameMap?> readSaveMap(String name) async {
     final contents = await file.readAsString();
     return GameMap.fromJson(json.decode(contents));
   } catch (e) {
-    print('fail');
+    // Todo
     return null;
   }
 }

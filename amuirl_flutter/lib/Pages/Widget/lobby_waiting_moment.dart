@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +40,7 @@ class _LobbyWaitingMomentState extends State<LobbyWaitingMoment> {
           context.read<CreationPageChangeProvider>().changeToGameInterface(
               game: game, isCreator: false);
         } else {
-          print("game does not exist");
+          //Todo: print("game does not exist");
         }
       }
       setState(() {

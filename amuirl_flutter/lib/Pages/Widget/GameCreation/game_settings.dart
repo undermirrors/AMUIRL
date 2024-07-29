@@ -49,7 +49,7 @@ class _GameSettingsState extends State<GameSettings> {
           client.lobbies.changeParameter(lobby, valueParam);
         });
       } else {
-        print("error : lobby not found");
+        // error : lobby not found
       }
     } else {
       Navigator.pushNamed(context, '/user_connexion');

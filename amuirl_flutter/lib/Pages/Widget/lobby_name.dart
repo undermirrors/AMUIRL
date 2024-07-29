@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:amuirl_flutter/Pages/Widget/GameCreation/lobby_creation.dart';
 import 'package:amuirl_flutter/Pages/Utils/lobby_value_basics.dart';

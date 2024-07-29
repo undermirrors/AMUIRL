@@ -34,6 +34,17 @@ class GameEndpoint extends Endpoint {
     return null;
   }
 
+  Future<bool?> revivePlayer(Session session, String nameGame, String playerName) async {
+    Game? game = await getGame(session, nameGame);
+    if (game != null) {
+      if (game.playersDead.contains(playerName)) {
+        game.playersDead.remove(playerName);
+        await Game.db.updateRow(session, game);
+      }
+    }
+    return null;
+  }
+
   Future<bool?> isDeadPlayer(Session session, String nameGame, String playerName) async {
     Game? game = await getGame(session, nameGame);
     if (game != null) {
@@ -72,10 +83,10 @@ class GameEndpoint extends Endpoint {
     return false;
   }
 
-  Future<void> triggerLobby(Session session, String nameGame) async {
+  Future<void> triggerLobby(Session session, String nameGame, String playerName) async {
     Game? game = await getGame(session, nameGame);
     if (game != null) {
-      game.startedPointTriggered = true;
+      game.startedPointTriggeredBy = playerName;
       await Game.db.updateRow(session, game);
     }
   }
@@ -83,7 +94,7 @@ class GameEndpoint extends Endpoint {
   Future<bool?> isTriggeredLobby(Session session, String nameGame) async {
     Game? game = await getGame(session, nameGame);
     if (game != null) {
-      return game.startedPointTriggered;
+      return game.startedPointTriggeredBy.isNotEmpty;
     }
     return null;
   }

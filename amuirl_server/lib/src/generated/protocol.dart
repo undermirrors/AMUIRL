@@ -124,10 +124,10 @@ class Protocol extends _i1.SerializationManagerServer {
           dartType: 'protocol:LatitudeLongitude',
         ),
         _i2.ColumnDefinition(
-          name: 'startedPointTriggered',
-          columnType: _i2.ColumnType.boolean,
+          name: 'startedPointTriggeredBy',
+          columnType: _i2.ColumnType.text,
           isNullable: false,
-          dartType: 'bool',
+          dartType: 'String',
         ),
         _i2.ColumnDefinition(
           name: 'isGameEnded',

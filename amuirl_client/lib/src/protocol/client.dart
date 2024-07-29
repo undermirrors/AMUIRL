@@ -69,6 +69,19 @@ class EndpointGame extends _i1.EndpointRef {
         },
       );
 
+  _i2.Future<bool?> revivePlayer(
+    String nameGame,
+    String playerName,
+  ) =>
+      caller.callServerEndpoint<bool?>(
+        'game',
+        'revivePlayer',
+        {
+          'nameGame': nameGame,
+          'playerName': playerName,
+        },
+      );
+
   _i2.Future<bool?> isDeadPlayer(
     String nameGame,
     String playerName,
@@ -104,11 +117,17 @@ class EndpointGame extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<void> triggerLobby(String nameGame) =>
+  _i2.Future<void> triggerLobby(
+    String nameGame,
+    String playerName,
+  ) =>
       caller.callServerEndpoint<void>(
         'game',
         'triggerLobby',
-        {'nameGame': nameGame},
+        {
+          'nameGame': nameGame,
+          'playerName': playerName,
+        },
       );
 
   _i2.Future<bool?> isTriggeredLobby(String nameGame) =>

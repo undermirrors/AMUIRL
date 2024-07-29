@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:amuirl_flutter/Pages/Utils/game_creation_map.dart';
 import 'package:amuirl_flutter/Pages/Utils/providers.dart';
@@ -116,7 +118,7 @@ class _LoadInterfaceState extends State<LoadInterface> {
                         map = await readSaveMap(loadingMap!),
                         if (map != null) {
                           context.read<MapProvider>().changeMap(newMap: map!),
-                          print("mapLoaded !"),
+                          //Todo: send MapLoaded message !
 
                           if(map!.lobbyMarkerPos != null) {
                             fromLoadedMap = map!.lobbyMarkerPos,
@@ -126,7 +128,7 @@ class _LoadInterfaceState extends State<LoadInterface> {
 
                           context.read<CreationPageChangeProvider>().changeToTaskSelector(lobby: widget.currentLobby)
                         } else {
-                          print("cannot load map")
+                          //Todo: "cannot load map" message !
                         }
                       }
                     },

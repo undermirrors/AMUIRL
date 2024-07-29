@@ -153,6 +153,30 @@ class Endpoints extends _i1.EndpointDispatch {
             params['playerName'],
           ),
         ),
+        'revivePlayer': _i1.MethodConnector(
+          name: 'revivePlayer',
+          params: {
+            'nameGame': _i1.ParameterDescription(
+              name: 'nameGame',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'playerName': _i1.ParameterDescription(
+              name: 'playerName',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['game'] as _i3.GameEndpoint).revivePlayer(
+            session,
+            params['nameGame'],
+            params['playerName'],
+          ),
+        ),
         'isDeadPlayer': _i1.MethodConnector(
           name: 'isDeadPlayer',
           params: {
@@ -232,7 +256,12 @@ class Endpoints extends _i1.EndpointDispatch {
               name: 'nameGame',
               type: _i1.getType<String>(),
               nullable: false,
-            )
+            ),
+            'playerName': _i1.ParameterDescription(
+              name: 'playerName',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
           },
           call: (
             _i1.Session session,
@@ -241,6 +270,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['game'] as _i3.GameEndpoint).triggerLobby(
             session,
             params['nameGame'],
+            params['playerName'],
           ),
         ),
         'isTriggeredLobby': _i1.MethodConnector(

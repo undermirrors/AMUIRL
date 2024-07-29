@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:math';
 
 import 'package:amuirl_client/amuirl_client.dart';
@@ -373,7 +375,7 @@ class _TaskSelectorState extends State<TaskSelector> {
                     totalTask: totalTask,
                     cooldownKillByImpostors: impostorCooldown,
                     startedPoint: LatitudeLongitude(latitude: startedPoint.latitude, longitude: startedPoint.longitude),
-                    startedPointTriggered: false,
+                    startedPointTriggeredBy: currentUser!.name,
                     isGameEnded: false,
                     dangerTriggered: false,
                   );
@@ -382,7 +384,7 @@ class _TaskSelectorState extends State<TaskSelector> {
 
                   context.read<CreationPageChangeProvider>().changeToGameInterface(game: game, isCreator: true);
                 } else {
-                  print("You can't start the game without have all the task and the lobby placed");
+                  //Todo: "You can't start the game without have all the task and the lobby placed"
                 }
               },
               child: Container(

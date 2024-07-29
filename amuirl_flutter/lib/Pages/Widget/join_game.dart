@@ -25,6 +25,7 @@ class _JoinGameState extends State<JoinGame> {
     if (currentUser != null) {
       await client.users.enterIntoLobby(currentUser!.name, idLobby);
       await client.lobbies.addPlayer(idLobby, currentUser!);
+      // ignore: use_build_context_synchronously
       updateUser(context);
     } else {
       Navigator.pushNamed(context, '/user_connexion');
@@ -95,7 +96,20 @@ class _JoinGameState extends State<JoinGame> {
         );
       }
     } on Exception catch (e) {
-        print(e.toString());
+      selectionsOfLobbies = ListView(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            child: Text(
+              e.toString(),
+              style: const TextStyle(
+                color: Colors.black26,
+                fontSize: 25,
+              ),
+            ),
+          )
+        ],
+      );
     }
   }
 
@@ -194,10 +208,10 @@ class _JoinGameState extends State<JoinGame> {
                           )
                       );
                     } else {
-                      print("trop de personne deja connecté à ce lobby");
+                      //Todo: print("trop de personne deja connecté à ce lobby");
                     }
                   } else {
-                    print("Aucun lobby n'a été saisi");
+                    //Todo: print("Aucun lobby n'a été saisi");
                   }
                 },
                 child:Container(

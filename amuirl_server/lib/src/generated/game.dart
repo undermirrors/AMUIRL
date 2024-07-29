@@ -28,7 +28,7 @@ abstract class Game extends _i1.TableRow implements _i1.ProtocolSerialization {
     required this.totalTask,
     required this.cooldownKillByImpostors,
     required this.startedPoint,
-    required this.startedPointTriggered,
+    required this.startedPointTriggeredBy,
     required this.isGameEnded,
     required this.dangerTriggered,
   }) : super(id);
@@ -48,7 +48,7 @@ abstract class Game extends _i1.TableRow implements _i1.ProtocolSerialization {
     required List<_i2.LatitudeLongitude> totalTask,
     required List<int> cooldownKillByImpostors,
     required _i2.LatitudeLongitude startedPoint,
-    required bool startedPointTriggered,
+    required String startedPointTriggeredBy,
     required bool isGameEnded,
     required bool dangerTriggered,
   }) = _GameImpl;
@@ -93,7 +93,8 @@ abstract class Game extends _i1.TableRow implements _i1.ProtocolSerialization {
               .toList(),
       startedPoint: _i2.LatitudeLongitude.fromJson(
           (jsonSerialization['startedPoint'] as Map<String, dynamic>)),
-      startedPointTriggered: jsonSerialization['startedPointTriggered'] as bool,
+      startedPointTriggeredBy:
+          jsonSerialization['startedPointTriggeredBy'] as String,
       isGameEnded: jsonSerialization['isGameEnded'] as bool,
       dangerTriggered: jsonSerialization['dangerTriggered'] as bool,
     );
@@ -129,7 +130,7 @@ abstract class Game extends _i1.TableRow implements _i1.ProtocolSerialization {
 
   _i2.LatitudeLongitude startedPoint;
 
-  bool startedPointTriggered;
+  String startedPointTriggeredBy;
 
   bool isGameEnded;
 
@@ -153,7 +154,7 @@ abstract class Game extends _i1.TableRow implements _i1.ProtocolSerialization {
     List<_i2.LatitudeLongitude>? totalTask,
     List<int>? cooldownKillByImpostors,
     _i2.LatitudeLongitude? startedPoint,
-    bool? startedPointTriggered,
+    String? startedPointTriggeredBy,
     bool? isGameEnded,
     bool? dangerTriggered,
   });
@@ -176,7 +177,7 @@ abstract class Game extends _i1.TableRow implements _i1.ProtocolSerialization {
       'totalTask': totalTask.toJson(valueToJson: (v) => v.toJson()),
       'cooldownKillByImpostors': cooldownKillByImpostors.toJson(),
       'startedPoint': startedPoint.toJson(),
-      'startedPointTriggered': startedPointTriggered,
+      'startedPointTriggeredBy': startedPointTriggeredBy,
       'isGameEnded': isGameEnded,
       'dangerTriggered': dangerTriggered,
     };
@@ -202,7 +203,7 @@ abstract class Game extends _i1.TableRow implements _i1.ProtocolSerialization {
       'totalTask': totalTask.toJson(valueToJson: (v) => v.toJsonForProtocol()),
       'cooldownKillByImpostors': cooldownKillByImpostors.toJson(),
       'startedPoint': startedPoint.toJsonForProtocol(),
-      'startedPointTriggered': startedPointTriggered,
+      'startedPointTriggeredBy': startedPointTriggeredBy,
       'isGameEnded': isGameEnded,
       'dangerTriggered': dangerTriggered,
     };
@@ -256,7 +257,7 @@ class _GameImpl extends Game {
     required List<_i2.LatitudeLongitude> totalTask,
     required List<int> cooldownKillByImpostors,
     required _i2.LatitudeLongitude startedPoint,
-    required bool startedPointTriggered,
+    required String startedPointTriggeredBy,
     required bool isGameEnded,
     required bool dangerTriggered,
   }) : super._(
@@ -274,7 +275,7 @@ class _GameImpl extends Game {
           totalTask: totalTask,
           cooldownKillByImpostors: cooldownKillByImpostors,
           startedPoint: startedPoint,
-          startedPointTriggered: startedPointTriggered,
+          startedPointTriggeredBy: startedPointTriggeredBy,
           isGameEnded: isGameEnded,
           dangerTriggered: dangerTriggered,
         );
@@ -295,7 +296,7 @@ class _GameImpl extends Game {
     List<_i2.LatitudeLongitude>? totalTask,
     List<int>? cooldownKillByImpostors,
     _i2.LatitudeLongitude? startedPoint,
-    bool? startedPointTriggered,
+    String? startedPointTriggeredBy,
     bool? isGameEnded,
     bool? dangerTriggered,
   }) {
@@ -317,8 +318,8 @@ class _GameImpl extends Game {
       cooldownKillByImpostors:
           cooldownKillByImpostors ?? this.cooldownKillByImpostors.clone(),
       startedPoint: startedPoint ?? this.startedPoint.copyWith(),
-      startedPointTriggered:
-          startedPointTriggered ?? this.startedPointTriggered,
+      startedPointTriggeredBy:
+          startedPointTriggeredBy ?? this.startedPointTriggeredBy,
       isGameEnded: isGameEnded ?? this.isGameEnded,
       dangerTriggered: dangerTriggered ?? this.dangerTriggered,
     );
@@ -379,8 +380,8 @@ class GameTable extends _i1.Table {
       'startedPoint',
       this,
     );
-    startedPointTriggered = _i1.ColumnBool(
-      'startedPointTriggered',
+    startedPointTriggeredBy = _i1.ColumnString(
+      'startedPointTriggeredBy',
       this,
     );
     isGameEnded = _i1.ColumnBool(
@@ -419,7 +420,7 @@ class GameTable extends _i1.Table {
 
   late final _i1.ColumnSerializable startedPoint;
 
-  late final _i1.ColumnBool startedPointTriggered;
+  late final _i1.ColumnString startedPointTriggeredBy;
 
   late final _i1.ColumnBool isGameEnded;
 
@@ -441,7 +442,7 @@ class GameTable extends _i1.Table {
         totalTask,
         cooldownKillByImpostors,
         startedPoint,
-        startedPointTriggered,
+        startedPointTriggeredBy,
         isGameEnded,
         dangerTriggered,
       ];

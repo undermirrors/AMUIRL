@@ -81,7 +81,20 @@ class _DebugdataState extends State<Debugdata> {
         );
       }
     } on Exception catch (e) {
-      print(e.toString());
+      selectionsOfLobbies = ListView(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            child: Text(
+              e.toString(),
+              style: const TextStyle(
+                color: Colors.black26,
+                fontSize: 25,
+              ),
+            ),
+          )
+        ],
+      );
     }
   }
 
@@ -147,7 +160,20 @@ class _DebugdataState extends State<Debugdata> {
         );
       }
     } on Exception catch (e) {
-      print(e.toString());
+      selectionsOfLobbies = ListView(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            child: Text(
+              e.toString(),
+              style: const TextStyle(
+                color: Colors.black26,
+                fontSize: 25,
+              ),
+            ),
+          )
+        ],
+      );
     }
   }
 

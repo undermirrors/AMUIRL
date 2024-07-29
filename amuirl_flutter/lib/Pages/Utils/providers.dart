@@ -101,4 +101,11 @@ class GameProvider extends ChangeNotifier {
     }
     return -1;
   }
+
+  bool gameEnded() {
+    if (game != null) {
+      return game!.isGameEnded;
+    }
+    return false;
+  }
 }

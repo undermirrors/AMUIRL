@@ -48,7 +48,6 @@ class GameMap {
       res.addEntries(value.entries);
     }
 
-    print(res);
     return res;
   }
 

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:amuirl_client/amuirl_client.dart';
 import 'package:flutter/material.dart';
 
@@ -124,10 +126,10 @@ class _UserConnexionState extends State<UserConnexion> {
                           currentUser = connexion;
                           Navigator.pushNamed(context, '/main_menu');
                         } else {
-                          print("invalid user mdp");
+                          //Todo: print("invalid user mdp");
                         }
                       } else {
-                        print("invalid username");
+                        //Todo: print("invalid username");
                       }
                     } else {
                       bool existingUser = await client.users.isExistingUser(username.text);
@@ -143,7 +145,7 @@ class _UserConnexionState extends State<UserConnexion> {
                         currentUser = newUser;
                         Navigator.pushNamed(context, '/main_menu');
                       } else {
-                        print("user exist in database");
+                        //Todo: print("user exist in database");
                       }
                     }
                   },

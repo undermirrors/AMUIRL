@@ -5,6 +5,7 @@ game:
   - deleteGame:
   - getGame:
   - killPlayer:
+  - revivePlayer:
   - isDeadPlayer:
   - getImpostors:
   - finishTask:
