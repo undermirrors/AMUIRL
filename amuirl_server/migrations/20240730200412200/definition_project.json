@@ -21,16 +21,40 @@
           "dartType": "String"
         },
         {
+          "name": "playersPosition",
+          "columnType": 8,
+          "isNullable": false,
+          "dartType": "List<protocol:LatitudeLongitude?>"
+        },
+        {
           "name": "players",
           "columnType": 8,
           "isNullable": false,
           "dartType": "List<String>"
         },
         {
-          "name": "gameParameter",
-          "columnType": 8,
+          "name": "timeBetweenImpostorKill",
+          "columnType": 6,
           "isNullable": false,
-          "dartType": "List<int>"
+          "dartType": "int"
+        },
+        {
+          "name": "killDistance",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "name": "nbUrgencyCall",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "name": "timeDiscutionVote",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
         },
         {
           "name": "playersDead",
@@ -42,7 +66,7 @@
           "name": "indexOfImpostors",
           "columnType": 8,
           "isNullable": false,
-          "dartType": "List<int>"
+          "dartType": "List<String>"
         },
         {
           "name": "taskLeftForEachPlayers",
@@ -69,10 +93,10 @@
           "dartType": "protocol:LatitudeLongitude"
         },
         {
-          "name": "startedPointTriggered",
-          "columnType": 1,
+          "name": "startedPointTriggeredBy",
+          "columnType": 0,
           "isNullable": false,
-          "dartType": "bool"
+          "dartType": "String"
         },
         {
           "name": "isGameEnded",
@@ -292,10 +316,6 @@
     {
       "module": "serverpod",
       "version": "20240516151843329"
-    },
-    {
-      "module": "amuirl",
-      "version": "20240722110809862"
     }
   ],
   "migrationApiVersion": 1

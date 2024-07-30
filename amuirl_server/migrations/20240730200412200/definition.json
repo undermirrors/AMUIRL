@@ -33,10 +33,28 @@
           "dartType": "List<String>"
         },
         {
-          "name": "gameParameter",
-          "columnType": 8,
+          "name": "timeBetweenImpostorKill",
+          "columnType": 6,
           "isNullable": false,
-          "dartType": "List<int>"
+          "dartType": "int"
+        },
+        {
+          "name": "killDistance",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "name": "nbUrgencyCall",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "name": "timeDiscutionVote",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
         },
         {
           "name": "playersDead",
@@ -48,7 +66,7 @@
           "name": "indexOfImpostors",
           "columnType": 8,
           "isNullable": false,
-          "dartType": "List<int>"
+          "dartType": "List<String>"
         },
         {
           "name": "taskLeftForEachPlayers",
@@ -75,10 +93,10 @@
           "dartType": "protocol:LatitudeLongitude"
         },
         {
-          "name": "startedPointTriggered",
-          "columnType": 1,
+          "name": "startedPointTriggeredBy",
+          "columnType": 0,
           "isNullable": false,
-          "dartType": "bool"
+          "dartType": "String"
         },
         {
           "name": "isGameEnded",
@@ -1434,7 +1452,7 @@
   "installedModules": [
     {
       "module": "amuirl",
-      "version": "20240722140652006"
+      "version": "20240730200412200"
     },
     {
       "module": "serverpod",

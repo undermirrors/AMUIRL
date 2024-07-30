@@ -18,7 +18,7 @@ CREATE TABLE "game" (
     "totalTask" json NOT NULL,
     "cooldownKillByImpostors" json NOT NULL,
     "startedPoint" json NOT NULL,
-    "startedPointTriggered" boolean NOT NULL,
+    "startedPointTriggeredBy" text NOT NULL,
     "isGameEnded" boolean NOT NULL,
     "dangerTriggered" boolean NOT NULL
 );
@@ -300,9 +300,9 @@ ALTER TABLE ONLY "serverpod_query_log"
 -- MIGRATION VERSION FOR amuirl
 --
 INSERT INTO "serverpod_migrations" ("module", "version", "timestamp")
-    VALUES ('amuirl', '20240722152450999', now())
+    VALUES ('amuirl', '20240730200412200', now())
     ON CONFLICT ("module")
-    DO UPDATE SET "version" = '20240722152450999', "timestamp" = now();
+    DO UPDATE SET "version" = '20240730200412200', "timestamp" = now();
 
 --
 -- MIGRATION VERSION FOR serverpod

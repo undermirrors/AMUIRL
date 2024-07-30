@@ -14,7 +14,7 @@ import 'package:serverpod_flutter/serverpod_flutter.dart';
   Timer.periodic(const Duration(milliseconds: reloadTime), (timer) {TO DO}
 */
 
-var client = Client('http://$localhost:8080/')
+var client = Client('http://89.168.38.51:8080/')
   ..connectivityMonitor = FlutterConnectivityMonitor();
 
 User? currentUser;
