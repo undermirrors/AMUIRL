@@ -26,6 +26,7 @@ class _UserConnexionState extends State<UserConnexion> {
   bool isConnexion = true;
   final TextEditingController username = TextEditingController();
   final TextEditingController mdp = TextEditingController();
+  bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -107,9 +108,16 @@ class _UserConnexionState extends State<UserConnexion> {
                   height: 50,
                   child: TextField(
                     controller: username,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
                       hintText: "nom d'utilisateur",
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(width: 3, color: Colors.blue),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(width: 3, color: Colors.lightBlueAccent),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                     ),
                   ),
                 ),
@@ -120,10 +128,25 @@ class _UserConnexionState extends State<UserConnexion> {
                   height: 50,
                   child: TextField(
                     controller: mdp,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                    obscureText: _isObscure,
+                    decoration: InputDecoration(
                       hintText: "mot de passe",
-                    ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(width: 3, color: Colors.blue),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(width: 3, color: Colors.lightBlueAccent),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      suffixIcon: IconButton(
+                          icon: Icon(
+                              _isObscure ? Icons.visibility : Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          })),
                   ),
                 ),
 
